@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ public class Rocket : MonoBehaviour
     public List<GameObject> Obstacles;
     public GameObject camera;
 
-    private CapsuleCollider capsuleCollider;
+    private float divisionTimer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,30 +36,18 @@ public class Rocket : MonoBehaviour
         isBasic = true;
 
         transform.position = new Vector3(0, -5, 0);
+
+        value = baseValue * multiplier;
     }
 
     // Update is called once per frame
     void Update()
     {
-        value = baseValue * multiplier;
-
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Launch();
         }
 
-        CheckCollider();
-    }
-
-    public void Launch()
-    {
-        isLaunching = true;
-        multiplier = 1f;
-        height = 0;
-    }
-
-    public void LateUpdate()
-    {
         if (isLaunching)
         {
             transform.Translate(Vector3.up * speed * Time.deltaTime);
@@ -75,9 +64,32 @@ public class Rocket : MonoBehaviour
 
             if (transform.position.y >= 0 || transform.position.y == 0)
             {
-                camera.transform.Translate(Vector3.up * speed * Time.deltaTime);
+                camera.transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z - 20);
+            }
+
+            divisionTimer += Time.deltaTime;
+
+            if (divisionTimer >= 0.1f)
+            {
+                value -= baseValue / 100;
+                divisionTimer = 0;
+
+                if (value < 0 || value == 0)
+                {
+                    Die();
+                }
             }
         }
+
+        CheckCollider();
+    }
+
+    public void Launch()
+    {
+        isLaunching = true;
+        multiplier = 1f;
+        height = 0;
+        speed = 1;
     }
 
     public void CheckCollider()
@@ -90,7 +102,7 @@ public class Rocket : MonoBehaviour
         {
             if (Obstacles.Contains(hit.gameObject))
             {
-                Debug.Log("hit");
+                Debug.Log("die");
 
                 Die();
             }
@@ -99,15 +111,18 @@ public class Rocket : MonoBehaviour
 
     public void Die()
     {
-        Reset();
+        ResetRocket();
     }
 
-    public void Reset()
+    public void ResetRocket()
     {
         transform.position = new Vector3(0, -5, 0);
         isLaunching = false;
         speed = 0;
         multiplier = 0;
         height = 0;
+
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+        camera.transform.position = new Vector3(0, -5, -20);
     }
 }
