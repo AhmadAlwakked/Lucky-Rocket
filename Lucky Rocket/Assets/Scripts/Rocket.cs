@@ -1,8 +1,5 @@
 using System.Collections.Generic;
-using System.Net.Sockets;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 
 public class Rocket : MonoBehaviour
 {
@@ -28,7 +25,8 @@ public class Rocket : MonoBehaviour
 
     public List<GameObject> Obstacles;
     public GameObject camera;
-    
+
+    private CapsuleCollider capsuleCollider;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -48,6 +46,8 @@ public class Rocket : MonoBehaviour
         {
             Launch();
         }
+
+        CheckCollider();
     }
 
     public void Launch()
@@ -78,5 +78,36 @@ public class Rocket : MonoBehaviour
                 camera.transform.Translate(Vector3.up * speed * Time.deltaTime);
             }
         }
+    }
+
+    public void CheckCollider()
+    {
+        CapsuleCollider cc = GetComponent<CapsuleCollider>();
+
+        Collider[] geraakteObjecten = Physics.OverlapCapsule(transform.position, transform.position, cc.radius);
+
+        foreach (Collider hit in geraakteObjecten)
+        {
+            if (Obstacles.Contains(hit.gameObject))
+            {
+                Debug.Log("hit");
+
+                Die();
+            }
+        }
+    }
+
+    public void Die()
+    {
+        Reset();
+    }
+
+    public void Reset()
+    {
+        transform.position = new Vector3(0, -5, 0);
+        isLaunching = false;
+        speed = 0;
+        multiplier = 0;
+        height = 0;
     }
 }
