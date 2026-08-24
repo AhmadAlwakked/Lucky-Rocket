@@ -21,10 +21,10 @@ public class RocketEditor : Editor
 
         EditorGUILayout.Space();
 
-        EditorGUILayout.LabelField("Value:", rocket.baseValue + "$");
+        EditorGUILayout.LabelField("Value:", rocket.value + "$");
         EditorGUILayout.LabelField("Multiplier", rocket.multiplier + "x");
 
-        float totalValue = rocket.baseValue * rocket.multiplier;
+        float totalValue = rocket.value * rocket.multiplier;
 
         EditorGUILayout.Space();
 

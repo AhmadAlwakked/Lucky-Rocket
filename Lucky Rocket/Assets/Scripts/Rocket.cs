@@ -13,7 +13,7 @@ public class Rocket : MonoBehaviour
     public bool isLaunching;
     public int speed;
     public int turnSpeed;
-    public int height;
+    public float height;
 
     [Space]
 
@@ -25,6 +25,7 @@ public class Rocket : MonoBehaviour
     [Space]
 
     public GameObject camera;
+    public ObstacleSpawner obstacleSpawner;
 
     private float divisionTimer;
 
@@ -42,10 +43,11 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && (isLaunching == false))
         {
             Launch();
         }
+
 
         if (isLaunching)
         {
@@ -64,15 +66,32 @@ public class Rocket : MonoBehaviour
             if (transform.position.y >= 0 || transform.position.y == 0)
             {
                 camera.transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z - 20);
+
+                if (isShuttle)
+                {
+                    if (Input.GetKey(KeyCode.Space))
+                    {
+                        turnSpeed = 20;
+                    }
+                }
             }
             else
             {
                 camera.transform.position = new Vector3(transform.position.x, camera.transform.position.y, camera.transform.position.z);
             }
 
-                divisionTimer += Time.deltaTime;
+            if (isJetFighter)
+            {
+                if (Input.GetKey(KeyCode.Mouse0))
+                {
 
-            if (divisionTimer >= 0.1f)
+                }
+            }
+
+
+            divisionTimer += Time.deltaTime;
+
+            if (divisionTimer >= 0.1)
             {
                 value -= baseValue / 100;
                 divisionTimer = 0;
@@ -82,15 +101,24 @@ public class Rocket : MonoBehaviour
                     Die();
                 }
             }
+
+
+            height = transform.position.y + 5; 
         }
     }
 
     public void Launch()
     {
         isLaunching = true;
-        multiplier = 1f;
-        height = 0;
+        multiplier = 1;
         speed = 2;
+
+        if (isShuttle)
+        {
+            turnSpeed = 10;
+        }
+
+        obstacleSpawner.SpawnObstacles();
     }
 
     public void OnTriggerEnter(Collider other)
@@ -113,11 +141,14 @@ public class Rocket : MonoBehaviour
         transform.position = new Vector3(0, -5, 0);
         isLaunching = false;
         speed = 0;
-        multiplier = 0;
+        multiplier = 1;
         height = 0;
         value = baseValue;
+        turnSpeed = 20;
 
         transform.rotation = Quaternion.Euler(0, 0, 0);
         camera.transform.position = new Vector3(0, 5, -20);
+
+        obstacleSpawner.ResetSpawnObstacles();
     }
 }

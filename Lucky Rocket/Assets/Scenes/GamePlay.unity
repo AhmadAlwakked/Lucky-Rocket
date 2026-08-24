@@ -345,16 +345,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBasic: 0
-  isShuttle: 0
+  isShuttle: 1
   isJetFighter: 0
   isLaunching: 0
   speed: 2
-  turnSpeed: 10
+  turnSpeed: 20
   height: 0
   baseValue: 1
   value: 1
   multiplier: 1
   camera: {fileID: 657416924}
+  obstacleSpawner: {fileID: 653732229}
 --- !u!54 &420467560
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -427,6 +428,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Obstacles: {fileID: 4210879347835228830, guid: ed0c327bee681524681609b88c3313ad, type: 3}
+  maxObstacles: 10
+  minX: -10
+  maxX: 10
+  minY: 0
+  maxY: 10
 --- !u!1 &657416924
 GameObject:
   m_ObjectHideFlags: 0
