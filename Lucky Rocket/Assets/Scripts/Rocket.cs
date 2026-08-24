@@ -24,7 +24,6 @@ public class Rocket : MonoBehaviour
 
     [Space]
 
-    public List<GameObject> Obstacles;
     public GameObject camera;
 
     private float divisionTimer;
@@ -66,8 +65,12 @@ public class Rocket : MonoBehaviour
             {
                 camera.transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z - 20);
             }
+            else
+            {
+                camera.transform.position = new Vector3(transform.position.x, camera.transform.position.y, camera.transform.position.z);
+            }
 
-            divisionTimer += Time.deltaTime;
+                divisionTimer += Time.deltaTime;
 
             if (divisionTimer >= 0.1f)
             {
@@ -80,8 +83,6 @@ public class Rocket : MonoBehaviour
                 }
             }
         }
-
-        CheckCollider();
     }
 
     public void Launch()
@@ -89,23 +90,16 @@ public class Rocket : MonoBehaviour
         isLaunching = true;
         multiplier = 1f;
         height = 0;
-        speed = 1;
+        speed = 2;
     }
 
-    public void CheckCollider()
+    public void OnTriggerEnter(Collider other)
     {
-        CapsuleCollider cc = GetComponent<CapsuleCollider>();
-
-        Collider[] geraakteObjecten = Physics.OverlapCapsule(transform.position, transform.position, cc.radius);
-
-        foreach (Collider hit in geraakteObjecten)
+        if (other.CompareTag("Obstacle"))
         {
-            if (Obstacles.Contains(hit.gameObject))
-            {
-                Debug.Log("die");
+            Debug.Log("die");
 
-                Die();
-            }
+            Die();
         }
     }
 
@@ -121,8 +115,9 @@ public class Rocket : MonoBehaviour
         speed = 0;
         multiplier = 0;
         height = 0;
+        value = baseValue;
 
         transform.rotation = Quaternion.Euler(0, 0, 0);
-        camera.transform.position = new Vector3(0, -5, -20);
+        camera.transform.position = new Vector3(0, 5, -20);
     }
 }

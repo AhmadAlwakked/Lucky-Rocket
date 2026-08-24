@@ -1,23 +1,25 @@
 using UnityEngine;
 using System.Collections.Generic;
+using NUnit.Framework.Internal;
 
 public class ObstacleSpawner : MonoBehaviour
 {
-<<<<<<< HEAD:Lucky Rocket/Assets/Camera.cs
-    internal static object current;
-=======
-    public List <GameObject> Obstacles;
->>>>>>> 8d0ac6fd15eb17a048cc1f6d58aa5eda7da1e91f:Lucky Rocket/Assets/Scripts/ObstacleSpawner.cs
+    public GameObject Obstacles;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        SpawnObstacles();
     }
 
     // Update is called once per frame
     void Update()
     {
-    
+
+    }
+
+    void SpawnObstacles()
+    {
+        Instantiate(Obstacles, transform.position, transform.rotation);
     }
 }
