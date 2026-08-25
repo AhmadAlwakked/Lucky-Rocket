@@ -11,7 +11,7 @@ public class Rocket : MonoBehaviour
 
     [Header("Launch")]
     public bool isLaunching;
-    public int speed;
+    public float speed;
     public int turnSpeed;
     public float height;
 
@@ -26,8 +26,6 @@ public class Rocket : MonoBehaviour
 
     public GameObject camera;
     public ObstacleSpawner obstacleSpawner;
-
-    public MultiplierScript multiplierSript;
 
     private float divisionTimer;
 
@@ -44,6 +42,52 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isLaunching)
+        {
+
+            //if ? raket = true;
+            if (Input.GetKey(KeyCode.Alpha1))
+            {
+                baseValue = 1;
+                value = 1;
+            }
+
+            if (Input.GetKey(KeyCode.Alpha2))
+            {
+                baseValue = 3;
+                value = 3;
+            }
+
+            if (Input.GetKey (KeyCode.Alpha3))
+            {
+                baseValue = 5;
+                value = 5;
+            }
+
+            //kies raket
+            if (Input.GetKey(KeyCode.Alpha8))
+            {
+                isBasic = true;
+                isShuttle = false;
+                isJetFighter = false;
+            }
+
+            if (Input.GetKey(KeyCode.Alpha9))
+            {
+                isBasic = false;
+                isShuttle = true;
+                isJetFighter = false;
+            }
+
+            if (Input.GetKey(KeyCode.Alpha0))
+            {
+                isBasic = false;
+                isShuttle = false;
+                isJetFighter = true;
+            }
+        }
+
+
         if (Input.GetKeyDown(KeyCode.Space) && (isLaunching == false))
         {
             Launch();
@@ -73,6 +117,7 @@ public class Rocket : MonoBehaviour
                     if (Input.GetKey(KeyCode.Space))
                     {
                         turnSpeed = 20;
+                        speed = 3;
                     }
                 }
             }
@@ -85,7 +130,7 @@ public class Rocket : MonoBehaviour
             {
                 if (Input.GetKey(KeyCode.Mouse0))
                 {
-
+                    Debug.Log("Shoot");
                 }
             }
 
@@ -100,9 +145,9 @@ public class Rocket : MonoBehaviour
                 if (value < 0 || value == 0)
                 {
                     Die();
+                    Debug.Log("No Fuel");
                 }
             }
-
 
             height = transform.position.y + 5; 
         }
@@ -113,29 +158,65 @@ public class Rocket : MonoBehaviour
         isLaunching = true;
         multiplier = 1;
         speed = 2;
+        turnSpeed = 20;
 
         if (isShuttle)
         {
             turnSpeed = 10;
         }
 
+        if (isJetFighter)
+        {
+            turnSpeed = 30;
+            speed = 4;
+        }
+
         obstacleSpawner.SpawnObjects();
     }
 
-    public void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Obstacle"))
         {
             Debug.Log("die");
-
             Die();
         }
-        else
+
+        if (other.CompareTag("Multiplier"))
         {
-            if (other.CompareTag("Multiplier"))
+            MultiplierScript multiplierObject = other.GetComponent<MultiplierScript>();
+
+            if (multiplierObject != null)
             {
-                value += baseValue;
+                // + multiplier
+                if (multiplierObject.activeMultiplier > 0)
+                {
+                    value += baseValue * multiplierObject.activeMultiplier;
+
+                    Debug.Log("+" + baseValue * multiplierObject.activeMultiplier);
+                    Debug.Log("Value: " + value);
+                }
+
+                // × multiplier
+                if (multiplierObject.activePlus != "")
+                {
+                    float multiplyAmount = float.Parse(
+                        multiplierObject.activePlus.Replace("x", "")
+                    );
+
+                    value *= multiplyAmount;
+
+                    Debug.Log("×" + multiplyAmount);
+                    Debug.Log("Value: " + value);
+                }
             }
+        }
+
+        if (other.CompareTag("Divider"))
+        {
+            value /= 2;
+            Debug.Log("/2");
+            Debug.Log("Value: " + value);
         }
     }
 
