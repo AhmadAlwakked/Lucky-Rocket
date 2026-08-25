@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Rocket : MonoBehaviour
 {
@@ -11,9 +12,16 @@ public class Rocket : MonoBehaviour
 
     [Header("Launch")]
     public bool isLaunching;
+    public float MaxLaunch;
+    public float launchSpeed = 8f;
     public float speed;
     public int turnSpeed;
     public float height;
+
+    [Header("Speed Increase")]
+    public float speedIncrease = 0.1f;
+    public float speedIncreaseGrowth = 0.1f;
+    private float speedTimer;
 
     [Space]
 
@@ -29,6 +37,10 @@ public class Rocket : MonoBehaviour
 
     private float divisionTimer;
 
+    public TMP_Text Cash;
+
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -42,9 +54,10 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Cash.text = "Cash: " + value.ToString("F2");
+
         if (!isLaunching)
         {
-
             //if ? raket = true;
             if (Input.GetKey(KeyCode.Alpha1))
             {
@@ -96,7 +109,23 @@ public class Rocket : MonoBehaviour
 
         if (isLaunching)
         {
-            transform.Translate(Vector3.up * speed * Time.deltaTime);
+            float currentSpeed = transform.position.y < MaxLaunch ? launchSpeed : speed;
+
+            transform.Translate(Vector3.up * currentSpeed * Time.deltaTime);
+
+            if (transform.position.y >= 0)
+            {
+                speedTimer += Time.deltaTime;
+
+                if (speedTimer >= 1f)
+                {
+                    speed += speedIncrease;
+
+                    speedIncrease += speedIncreaseGrowth;
+
+                    speedTimer = 0f;
+                }
+            }
 
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) && transform.eulerAngles.y > -30)
             {
@@ -159,6 +188,9 @@ public class Rocket : MonoBehaviour
         multiplier = 1;
         speed = 2;
         turnSpeed = 20;
+
+        speedIncrease = 0.1f;
+        speedTimer = 0f;
 
         if (isShuttle)
         {
