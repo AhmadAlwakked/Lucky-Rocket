@@ -27,13 +27,14 @@ public class Rocket : MonoBehaviour
     public GameObject camera;
     public ObstacleSpawner obstacleSpawner;
 
+    public MultiplierScript multiplierSript;
+
     private float divisionTimer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         isLaunching = false;
-        isBasic = true;
 
         transform.position = new Vector3(0, -5, 0);
 
@@ -118,7 +119,7 @@ public class Rocket : MonoBehaviour
             turnSpeed = 10;
         }
 
-        obstacleSpawner.SpawnObstacles();
+        obstacleSpawner.SpawnObjects();
     }
 
     public void OnTriggerEnter(Collider other)
@@ -128,6 +129,13 @@ public class Rocket : MonoBehaviour
             Debug.Log("die");
 
             Die();
+        }
+        else
+        {
+            if (other.CompareTag("Multiplier"))
+            {
+                value += baseValue;
+            }
         }
     }
 

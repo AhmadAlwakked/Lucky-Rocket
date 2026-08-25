@@ -232,7 +232,7 @@ GameObject:
   - component: {fileID: 420467560}
   m_Layer: 0
   m_Name: Rocket
-  m_TagString: Untagged
+  m_TagString: Rocket
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -344,8 +344,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803e40dc0f4889a4286d39e0d1e93e8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBasic: 0
-  isShuttle: 1
+  isBasic: 1
+  isShuttle: 0
   isJetFighter: 0
   isLaunching: 0
   speed: 2
@@ -428,7 +428,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Obstacles: {fileID: 4210879347835228830, guid: ed0c327bee681524681609b88c3313ad, type: 3}
-  maxObstacles: 10
+  Multiplier: {fileID: 5521374380756789307, guid: 81fed102c6387fe40a5aee890923e0c6, type: 3}
+  maxObstacles: 5
+  maxMultipliers: 10
   minX: -10
   maxX: 10
   minY: 0
