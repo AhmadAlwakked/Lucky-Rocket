@@ -10,6 +10,9 @@ public class ObstacleSpawner : MonoBehaviour
 
     public Transform parentTransform;
 
+    [Space]
+
+
     [Range(0, 100)]
     public int maxObstacles;
 
@@ -22,9 +25,13 @@ public class ObstacleSpawner : MonoBehaviour
     [Range(0, 100)]
     public int maxEarth = 1;
 
+    [Space]
+
     public float squareWidth = 20f;
     public float squareHeight = 20f;
     public float minSpawnHeight = 0f;
+
+    [Space]
 
     [Range(0, 5)]
     public int squaresLeftRight = 1;
@@ -131,7 +138,7 @@ public class ObstacleSpawner : MonoBehaviour
         }
     }
 
-    void Spawn(
+    public void Spawn(
         GameObject prefab,
         Vector2Int square,
         float minX,

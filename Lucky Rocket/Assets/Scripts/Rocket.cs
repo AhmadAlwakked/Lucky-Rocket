@@ -34,6 +34,7 @@ public class Rocket : MonoBehaviour
 
     public GameObject camera;
     public ObstacleSpawner obstacleSpawner;
+    public CashSystem cashSystem;
 
     private float divisionTimer;
 
@@ -104,7 +105,15 @@ public class Rocket : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && (isLaunching == false))
         {
-            Launch();
+            if (cashSystem.cash >= baseValue)
+            {
+                Launch();
+                cashSystem.cash -= baseValue;
+            }
+            else
+            {
+                Debug.Log("Not Enough Cash");
+            }
         }
 
 
@@ -128,15 +137,19 @@ public class Rocket : MonoBehaviour
                 }
             }
 
-            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) && transform.eulerAngles.y > -30)
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
             {
                 transform.Rotate(Vector3.forward * turnSpeed * Time.deltaTime);
             }
 
-            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) && transform.eulerAngles.y < 30)
+            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             {
                 transform.Rotate(Vector3.back * turnSpeed * Time.deltaTime);
             }
+
+            Vector3 rotation = transform.eulerAngles;
+            rotation.z = Mathf.Clamp(rotation.z > 180 ? rotation.z - 360 : rotation.z, -30f, 30f);
+            transform.eulerAngles = rotation;
 
             if (transform.position.y >= 0 || transform.position.y == 0)
             {
@@ -179,7 +192,7 @@ public class Rocket : MonoBehaviour
                 }
             }
 
-            height = transform.position.y + 5; 
+            height = transform.position.y + 5;
         }
     }
 
@@ -217,6 +230,7 @@ public class Rocket : MonoBehaviour
 
         if (other.CompareTag("Earth"))
         {
+            cashSystem.cash += value;
             Debug.Log("win " + value);
             Die();
         }
