@@ -40,7 +40,6 @@ public class Rocket : MonoBehaviour
     public TMP_Text Cash;
 
 
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -54,7 +53,9 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Cash.text = "Cash: " + value.ToString("F2");
+        Cash.text = value.ToString("F2");
+
+        multiplier = value / baseValue;
 
         if (!isLaunching)
         {
@@ -117,7 +118,7 @@ public class Rocket : MonoBehaviour
             {
                 speedTimer += Time.deltaTime;
 
-                if (speedTimer >= 1f)
+                if (speedTimer >= 5f)
                 {
                     speed += speedIncrease;
 
@@ -211,6 +212,12 @@ public class Rocket : MonoBehaviour
         if (other.CompareTag("Obstacle"))
         {
             Debug.Log("die");
+            Die();
+        }
+
+        if (other.CompareTag("Earth"))
+        {
+            Debug.Log("win " + value);
             Die();
         }
 

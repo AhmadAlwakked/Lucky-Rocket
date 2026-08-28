@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DividerScript : MonoBehaviour
+public class Earth : MonoBehaviour
 {
     public ObstacleSpawner obstacleSpawner;
 

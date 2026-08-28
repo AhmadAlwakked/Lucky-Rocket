@@ -6,6 +6,7 @@ public class ObstacleSpawner : MonoBehaviour
     public GameObject obstacles;
     public GameObject multiplier;
     public GameObject divider;
+    public GameObject earth;
 
     public Transform parentTransform;
 
@@ -17,6 +18,9 @@ public class ObstacleSpawner : MonoBehaviour
 
     [Range(0, 100)]
     public int maxDividers;
+
+    [Range(0, 100)]
+    public int maxEarth = 1;
 
     public float squareWidth = 20f;
     public float squareHeight = 20f;
@@ -120,6 +124,11 @@ public class ObstacleSpawner : MonoBehaviour
 
         for (int i = 0; i < maxDividers; i++)
             Spawn(divider, square, minX, maxX, minY, maxY);
+
+        for (int i = 0;i < maxEarth; i++)
+        {
+            Spawn(earth, square, minX, maxX, minY, maxY);
+        }
     }
 
     void Spawn(

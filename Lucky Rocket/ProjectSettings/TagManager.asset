@@ -8,6 +8,7 @@ TagManager:
   - Multiplier
   - Rocket
   - Divider
+  - Earth
   layers:
   - Default
   - TransparentFX
