@@ -60,6 +60,8 @@ public class ObstacleSpawner : MonoBehaviour
 
         SpawnAroundRocket();
         RemoveSquaresBehindRocket();
+        CheckPrefabCollisions();
+        CheckPrefabCollisions();
     }
 
     public void SpawnObjects()
@@ -132,9 +134,12 @@ public class ObstacleSpawner : MonoBehaviour
         for (int i = 0; i < maxDividers; i++)
             Spawn(divider, square, minX, maxX, minY, maxY);
 
-        for (int i = 0;i < maxEarth; i++)
+        if (Random.Range(0, 4) == 0)
         {
-            Spawn(earth, square, minX, maxX, minY, maxY);
+            for (int i = 0; i < maxEarth; i++)
+            {
+                Spawn(earth, square, minX, maxX, minY, maxY);
+            }
         }
     }
 
@@ -161,6 +166,94 @@ public class ObstacleSpawner : MonoBehaviour
         );
 
         squareObjects[square].Add(spawnedObject);
+    }
+
+    public void ReplaceObject(GameObject objectToReplace)
+    {
+        foreach (KeyValuePair<Vector2Int, List<GameObject>> pair in squareObjects)
+        {
+            if (pair.Value.Contains(objectToReplace))
+            {
+                Vector2Int square = pair.Key;
+
+                float minX = square.x * squareWidth - squareWidth / 2f;
+                float maxX = square.x * squareWidth + squareWidth / 2f;
+
+                float minY = minSpawnHeight + square.y * squareHeight;
+                float maxY = minY + squareHeight;
+
+                GameObject prefab = null;
+
+                if (objectToReplace.CompareTag("Obstacle"))
+                    prefab = obstacles;
+                else if (objectToReplace.CompareTag("Multiplier"))
+                    prefab = multiplier;
+                else if (objectToReplace.CompareTag("Divider"))
+                    prefab = divider;
+                else if (objectToReplace.CompareTag("Earth"))
+                    prefab = earth;
+
+                if (prefab == null)
+                    return;
+
+                pair.Value.Remove(objectToReplace);
+
+                Destroy(objectToReplace);
+
+                Spawn(
+                    prefab,
+                    square,
+                    minX,
+                    maxX,
+                    minY,
+                    maxY
+                );
+
+                return;
+            }
+        }
+    }
+
+    void CheckPrefabCollisions()
+    {
+        foreach (KeyValuePair<Vector2Int, List<GameObject>> pair in squareObjects)
+        {
+            List<GameObject> objects = pair.Value;
+
+            for (int i = 0; i < objects.Count; i++)
+            {
+                GameObject obj = objects[i];
+
+                if (obj == null)
+                    continue;
+
+                Collider collider = obj.GetComponent<Collider>();
+
+                if (collider == null)
+                    continue;
+
+                Collider[] hits = Physics.OverlapBox(
+                    collider.bounds.center,
+                    collider.bounds.extents,
+                    obj.transform.rotation
+                );
+
+                foreach (Collider hit in hits)
+                {
+                    if (hit.gameObject == obj)
+                        continue;
+
+                    if (hit.CompareTag("Obstacle") ||
+                        hit.CompareTag("Multiplier") ||
+                        hit.CompareTag("Divider") ||
+                        hit.CompareTag("Earth"))
+                    {
+                        ReplaceObject(hit.gameObject);
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     void RemoveSquaresBehindRocket()

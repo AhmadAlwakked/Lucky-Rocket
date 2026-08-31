@@ -376,9 +376,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803e40dc0f4889a4286d39e0d1e93e8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBasic: 1
-  isShuttle: 0
+  isBasic: 0
+  isShuttle: 1
   isJetFighter: 0
+  loseFuel: 0
   isLaunching: 0
   MaxLaunch: 27.5
   launchSpeed: 25
@@ -387,7 +388,7 @@ MonoBehaviour:
   height: 0
   speedIncrease: 0.1
   speedIncreaseGrowth: 0.01
-  baseValue: 0.1
+  baseValue: 1
   value: 1
   multiplier: 1
   camera: {fileID: 657416924}
@@ -470,15 +471,15 @@ MonoBehaviour:
   divider: {fileID: 6801505451908709942, guid: 5ff11a8862ad9194d98f6e2667eb2ea9, type: 3}
   earth: {fileID: 6246427577951138343, guid: ebcdd494d5fb0fa47a6de27d753c7fda, type: 3}
   parentTransform: {fileID: 283502233}
-  maxObstacles: 20
-  maxMultipliers: 10
-  maxDividers: 20
+  maxObstacles: 5
+  maxMultipliers: 3
+  maxDividers: 5
   maxEarth: 1
   squareWidth: 20
   squareHeight: 20
-  minSpawnHeight: 40
+  minSpawnHeight: 35
   squaresLeftRight: 2
-  spawnAheadSquares: 2
+  spawnAheadSquares: 1
   squaresBehind: 1
 --- !u!1 &657416924
 GameObject:
