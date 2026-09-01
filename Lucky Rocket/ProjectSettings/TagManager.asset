@@ -9,6 +9,7 @@ TagManager:
   - Rocket
   - Divider
   - Earth
+  - Bullet
   layers:
   - Default
   - TransparentFX

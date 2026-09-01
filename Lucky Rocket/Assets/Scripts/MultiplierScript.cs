@@ -13,13 +13,9 @@ public class MultiplierScript : MonoBehaviour
     public string activePlus;
     public TMP_Text multiplierText;
 
-    public ObstacleSpawner obstacleSpawner;
-
     void Start()
     {
         RandomMultiplier();
-
-        obstacleSpawner = FindAnyObjectByType<ObstacleSpawner>();
     }
 
     public void RandomMultiplier()
@@ -84,5 +80,8 @@ public class MultiplierScript : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        if (other.CompareTag("Bullet"))
+            Destroy(gameObject);
     }
 }

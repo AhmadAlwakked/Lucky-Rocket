@@ -1,19 +1,46 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Obstacles : MonoBehaviour
 {
-    public ObstacleSpawner obstacleSpawner;
+    public int health;
+    public Slider healthSlider;
 
-    public void Start()
+    void Start()
     {
-        obstacleSpawner = FindAnyObjectByType<ObstacleSpawner>();
+        healthSlider = GetComponentInChildren<Slider>();
+
+        healthSlider.maxValue = health;
+        healthSlider.value = health;
+
+        healthSlider.gameObject.SetActive(false);
+    }
+
+    void Update()
+    {
+        healthSlider.value = health;
+
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Obstacle") || other.CompareTag("Multiplier") || other.CompareTag("Divider") || other.CompareTag("Earth"))
+        if (other.CompareTag("Rocket"))
         {
             Destroy(gameObject);
+        }
+
+        if (other.CompareTag("Bullet"))
+        {
+            if (health > 0)
+            {
+                health -= 1;
+            }
+
+            healthSlider.gameObject.SetActive(true);
         }
     }
 }

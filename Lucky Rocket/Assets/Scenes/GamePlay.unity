@@ -240,12 +240,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 283502232}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 653732228}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &420467554
 GameObject:
@@ -377,8 +377,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBasic: 0
-  isShuttle: 1
-  isJetFighter: 0
+  isShuttle: 0
+  isJetFighter: 1
   loseFuel: 0
   isLaunching: 0
   MaxLaunch: 27.5
@@ -394,6 +394,7 @@ MonoBehaviour:
   camera: {fileID: 657416924}
   obstacleSpawner: {fileID: 653732229}
   cashSystem: {fileID: 974949410}
+  bullet: {fileID: 2784696838428699838, guid: 6360fac5e16824348ad71d848ca703f5, type: 3}
   Cash: {fileID: 1024508702}
 --- !u!54 &420467560
 Rigidbody:
@@ -451,7 +452,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 283502233}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &653732229
@@ -1287,6 +1289,5 @@ SceneRoots:
   - {fileID: 420467558}
   - {fileID: 1473689464}
   - {fileID: 653732228}
-  - {fileID: 283502233}
   - {fileID: 1920047925}
   - {fileID: 974949409}

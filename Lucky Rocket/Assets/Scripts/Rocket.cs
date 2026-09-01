@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Threading.Tasks;
 
 public class Rocket : MonoBehaviour
 {
@@ -30,12 +31,17 @@ public class Rocket : MonoBehaviour
     public float value;
     public float multiplier = 1f;
 
+    [Space]
+
+    public float shootCooldown = 1f;
+    private float shootTimer;
 
     [Space]
 
     public GameObject camera;
     public ObstacleSpawner obstacleSpawner;
     public CashSystem cashSystem;
+    public GameObject bullet;
 
     private float divisionTimer;
 
@@ -124,9 +130,17 @@ public class Rocket : MonoBehaviour
 
                 if (isJetFighter)
                 {
-                    if (Input.GetKey(KeyCode.Mouse0))
+                    shootTimer += Time.deltaTime;
+
+                    if (Input.GetKeyDown(KeyCode.Mouse0) && shootTimer >= shootCooldown)
                     {
                         Debug.Log("Shoot");
+
+                        Vector3 position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+
+                        Instantiate(bullet, position, transform.rotation);
+
+                        shootTimer = 0f;
                     }
                 }
             }
@@ -174,8 +188,6 @@ public class Rocket : MonoBehaviour
 
         speedIncrease = 0.1f;
         speedTimer = 0f;
-
-
 
         if (isJetFighter)
         {
