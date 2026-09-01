@@ -391,6 +391,7 @@ MonoBehaviour:
   baseValue: 1
   value: 1
   multiplier: 1
+  shootCooldown: 0.25
   camera: {fileID: 657416924}
   obstacleSpawner: {fileID: 653732229}
   cashSystem: {fileID: 974949410}
@@ -472,11 +473,13 @@ MonoBehaviour:
   multiplier: {fileID: 5521374380756789307, guid: 81fed102c6387fe40a5aee890923e0c6, type: 3}
   divider: {fileID: 6801505451908709942, guid: 5ff11a8862ad9194d98f6e2667eb2ea9, type: 3}
   earth: {fileID: 6246427577951138343, guid: ebcdd494d5fb0fa47a6de27d753c7fda, type: 3}
+  blackHole: {fileID: 359611451437159531, guid: b8a27c56b3e2e23408e992ae7b7281d5, type: 3}
   parentTransform: {fileID: 283502233}
   maxObstacles: 5
   maxMultipliers: 3
   maxDividers: 5
   maxEarth: 1
+  maxBlackHoles: 1
   squareWidth: 20
   squareHeight: 20
   minSpawnHeight: 35

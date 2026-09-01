@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb08662a85b037c4fb13051983a2a598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Obstacles
-  health: 2
+  health: 5
   healthSlider: {fileID: 0}
 --- !u!1 &4346806049396600368
 GameObject:

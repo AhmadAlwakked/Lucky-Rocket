@@ -883,5 +883,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff73186cb400de74e9d5ec976aa505fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DividerScript
-  health: 2
+  health: 5
   healthSlider: {fileID: 0}

@@ -7,6 +7,7 @@ public class ObstacleSpawner : MonoBehaviour
     public GameObject multiplier;
     public GameObject divider;
     public GameObject earth;
+    public GameObject blackHole;
 
     public Transform parentTransform;
 
@@ -24,6 +25,9 @@ public class ObstacleSpawner : MonoBehaviour
 
     [Range(0, 100)]
     public int maxEarth = 1;
+
+    [Range(0, 100)]
+    public int maxBlackHoles;
 
     [Space]
 
@@ -134,11 +138,19 @@ public class ObstacleSpawner : MonoBehaviour
         for (int i = 0; i < maxDividers; i++)
             Spawn(divider, square, minX, maxX, minY, maxY);
 
-        if (Random.Range(0, 4) == 0)
+        if (Random.Range(0, 5) == 0)
         {
             for (int i = 0; i < maxEarth; i++)
             {
                 Spawn(earth, square, minX, maxX, minY, maxY);
+            }
+        }
+
+        if (Random.Range(0, 4) == 0)
+        {
+            for (int i = 0; i < maxBlackHoles; i++)
+            {
+                Spawn(blackHole, square, minX, maxX, minY, maxY);
             }
         }
     }

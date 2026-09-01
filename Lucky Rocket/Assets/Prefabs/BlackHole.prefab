@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6246427577951138343
+--- !u!1 &359611451437159531
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 136812824213164258}
-  - component: {fileID: 4886556061703725198}
-  - component: {fileID: 3009028377078387719}
-  - component: {fileID: 685140072696147818}
-  - component: {fileID: -7418057273451496560}
-  - component: {fileID: 3242461646046253470}
+  - component: {fileID: 6450481127215397093}
+  - component: {fileID: 5933746642254823757}
+  - component: {fileID: 148582555346387071}
+  - component: {fileID: 7658742072007584571}
+  - component: {fileID: 5247429398373438049}
+  - component: {fileID: 8763648534351550418}
   m_Layer: 0
-  m_Name: Earth
-  m_TagString: Earth
+  m_Name: BlackHole
+  m_TagString: BlackHole
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &136812824213164258
+--- !u!4 &6450481127215397093
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6246427577951138343}
+  m_GameObject: {fileID: 359611451437159531}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.43381, y: 0, z: -3.38382}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4886556061703725198
+--- !u!33 &5933746642254823757
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6246427577951138343}
+  m_GameObject: {fileID: 359611451437159531}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &3009028377078387719
+--- !u!23 &148582555346387071
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6246427577951138343}
+  m_GameObject: {fileID: 359611451437159531}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 05a3f91994e6d804480378b5c19a5c40, type: 2}
+  - {fileID: 2100000, guid: 41380c786828ac04e9ddf7588ae65e91, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -93,13 +93,13 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &685140072696147818
+--- !u!135 &7658742072007584571
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6246427577951138343}
+  m_GameObject: {fileID: 359611451437159531}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -108,19 +108,19 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &-7418057273451496560
+--- !u!54 &5247429398373438049
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6246427577951138343}
+  m_GameObject: {fileID: 359611451437159531}
   serializedVersion: 5
   m_Mass: 1
   m_LinearDamping: 0
@@ -141,15 +141,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3242461646046253470
+--- !u!114 &8763648534351550418
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6246427577951138343}
+  m_GameObject: {fileID: 359611451437159531}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8c3f9085ca64f949a32442ffebee48d, type: 3}
+  m_Script: {fileID: 11500000, guid: ad6b5b5cbe5b2b84293305aaf350dc47, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Earth
+  m_EditorClassIdentifier: Assembly-CSharp::BlackHole
+  size: 0
+  minSize: 2.5
+  maxSize: 5

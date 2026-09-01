@@ -10,6 +10,7 @@ TagManager:
   - Divider
   - Earth
   - Bullet
+  - BlackHole
   layers:
   - Default
   - TransparentFX

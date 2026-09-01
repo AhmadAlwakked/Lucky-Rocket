@@ -33,7 +33,7 @@ public class Rocket : MonoBehaviour
 
     [Space]
 
-    public float shootCooldown = 1f;
+    public float shootCooldown;
     private float shootTimer;
 
     [Space]
