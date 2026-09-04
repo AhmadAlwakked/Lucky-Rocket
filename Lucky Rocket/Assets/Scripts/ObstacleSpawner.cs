@@ -64,8 +64,6 @@ public class ObstacleSpawner : MonoBehaviour
 
         SpawnAroundRocket();
         RemoveSquaresBehindRocket();
-        CheckPrefabCollisions();
-        CheckPrefabCollisions();
     }
 
     public void SpawnObjects()
@@ -164,107 +162,57 @@ public class ObstacleSpawner : MonoBehaviour
         float maxY
     )
     {
-        Vector3 position = new Vector3(
-            Random.Range(minX, maxX),
-            Random.Range(minY, maxY),
-            transform.position.z
-        );
-
-        GameObject spawnedObject = Instantiate(
-            prefab,
-            position,
-            transform.rotation,
-            parentTransform
-        );
-
-        squareObjects[square].Add(spawnedObject);
-    }
-
-    public void ReplaceObject(GameObject objectToReplace)
-    {
-        foreach (KeyValuePair<Vector2Int, List<GameObject>> pair in squareObjects)
+        for (int attempt = 0; attempt < 20; attempt++)
         {
-            if (pair.Value.Contains(objectToReplace))
+            Vector3 position = new Vector3(
+                Random.Range(minX, maxX),
+                Random.Range(minY, maxY),
+                transform.position.z
+            );
+
+            GameObject spawnedObject = Instantiate(
+                prefab,
+                position,
+                transform.rotation,
+                parentTransform
+            );
+
+            Collider newCollider = spawnedObject.GetComponent<Collider>();
+
+            if (newCollider == null)
             {
-                Vector2Int square = pair.Key;
-
-                float minX = square.x * squareWidth - squareWidth / 2f;
-                float maxX = square.x * squareWidth + squareWidth / 2f;
-
-                float minY = minSpawnHeight + square.y * squareHeight;
-                float maxY = minY + squareHeight;
-
-                GameObject prefab = null;
-
-                if (objectToReplace.CompareTag("Obstacle"))
-                    prefab = obstacles;
-                else if (objectToReplace.CompareTag("Multiplier"))
-                    prefab = multiplier;
-                else if (objectToReplace.CompareTag("Divider"))
-                    prefab = divider;
-                else if (objectToReplace.CompareTag("Earth"))
-                    prefab = earth;
-
-                if (prefab == null)
-                    return;
-
-                pair.Value.Remove(objectToReplace);
-
-                Destroy(objectToReplace);
-
-                Spawn(
-                    prefab,
-                    square,
-                    minX,
-                    maxX,
-                    minY,
-                    maxY
-                );
-
+                squareObjects[square].Add(spawnedObject);
                 return;
             }
-        }
-    }
 
-    void CheckPrefabCollisions()
-    {
-        foreach (KeyValuePair<Vector2Int, List<GameObject>> pair in squareObjects)
-        {
-            List<GameObject> objects = pair.Value;
+            Collider[] hits = Physics.OverlapBox(
+                newCollider.bounds.center,
+                newCollider.bounds.extents
+            );
 
-            for (int i = 0; i < objects.Count; i++)
+            bool touchingObject = false;
+
+            foreach (Collider hit in hits)
             {
-                GameObject obj = objects[i];
-
-                if (obj == null)
-                    continue;
-
-                Collider collider = obj.GetComponent<Collider>();
-
-                if (collider == null)
-                    continue;
-
-                Collider[] hits = Physics.OverlapBox(
-                    collider.bounds.center,
-                    collider.bounds.extents,
-                    obj.transform.rotation
-                );
-
-                foreach (Collider hit in hits)
+                if (hit.gameObject != spawnedObject &&
+                    (hit.CompareTag("Obstacle") ||
+                     hit.CompareTag("Multiplier") ||
+                     hit.CompareTag("Divider") ||
+                     hit.CompareTag("Earth") ||
+                     hit.CompareTag("BlackHole")))
                 {
-                    if (hit.gameObject == obj)
-                        continue;
-
-                    if (hit.CompareTag("Obstacle") ||
-                        hit.CompareTag("Multiplier") ||
-                        hit.CompareTag("Divider") ||
-                        hit.CompareTag("Earth"))
-                    {
-                        ReplaceObject(hit.gameObject);
-                        return;
-                    }
+                    touchingObject = true;
+                    break;
                 }
             }
+
+            if (!touchingObject)
+            {
+                squareObjects[square].Add(spawnedObject);
+                return;
+            }
+
+            Destroy(spawnedObject);
         }
     }
 

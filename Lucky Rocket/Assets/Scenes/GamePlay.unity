@@ -396,6 +396,7 @@ MonoBehaviour:
   obstacleSpawner: {fileID: 653732229}
   cashSystem: {fileID: 974949410}
   bullet: {fileID: 2784696838428699838, guid: 6360fac5e16824348ad71d848ca703f5, type: 3}
+  blackhole: {fileID: 8763648534351550418, guid: b8a27c56b3e2e23408e992ae7b7281d5, type: 3}
   Cash: {fileID: 1024508702}
 --- !u!54 &420467560
 Rigidbody:

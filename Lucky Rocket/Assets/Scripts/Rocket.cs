@@ -25,6 +25,14 @@ public class Rocket : MonoBehaviour
     public float speedIncreaseGrowth = 0.1f;
     private float speedTimer;
 
+    [Header("Black Hole")]
+    public float blackHolePullSpeed;
+    public float blackHoleMaxPullSpeed;
+    public float blackHolePullStrength;
+    private float blackHoleVelocityX;
+
+    private BlackHole currentBlackHole;
+
     [Space]
 
     public float baseValue;
@@ -166,6 +174,38 @@ public class Rocket : MonoBehaviour
             height = transform.position.y + 5;
         }
 
+        // Black hole aantrekkingskracht
+        if (currentBlackHole != null && currentBlackHole.IsAttracting())
+        {
+            float targetX = currentBlackHole.transform.position.x;
+
+            float direction = Mathf.Sign(targetX - transform.position.x);
+
+            float mass = currentBlackHole.GetMass();
+
+            float acceleration = mass * blackHolePullStrength;
+
+            blackHoleVelocityX += direction * acceleration * Time.deltaTime;
+
+            blackHoleVelocityX = Mathf.Clamp(
+                blackHoleVelocityX,
+                -blackHoleMaxPullSpeed,
+                blackHoleMaxPullSpeed
+            );
+
+            transform.position += new Vector3(
+                blackHoleVelocityX * Time.deltaTime,
+                0f,
+                0f
+            );
+        }
+        else
+        {
+            // Geen multiplier/divider meer = direct stoppen met aantrekken
+            blackHoleVelocityX = 0f;
+            currentBlackHole = null;
+        }
+
         Cash.text = value.ToString("F2");
     }
 
@@ -248,6 +288,28 @@ public class Rocket : MonoBehaviour
             value /= 2;
             Debug.Log("/2");
             Debug.Log("Value: " + value);
+        }
+
+        if (other.CompareTag("BlackHole"))
+        {
+            BlackHole blackHole = other.GetComponent<BlackHole>();
+
+            if (blackHole != null)
+            {
+                currentBlackHole = blackHole;
+
+                float mass = blackHole.GetMass();
+
+                // Waarden automatisch berekenen op basis van massa
+                blackHolePullSpeed = 0.1f * mass;
+                blackHoleMaxPullSpeed = 1f * mass;
+                blackHolePullStrength = 0.1f * mass;
+
+                Debug.Log("Black hole massa: " + mass);
+                Debug.Log("Pull speed: " + blackHolePullSpeed);
+                Debug.Log("Max pull speed: " + blackHoleMaxPullSpeed);
+                Debug.Log("Pull strength: " + blackHolePullStrength);
+            }
         }
     }
 
