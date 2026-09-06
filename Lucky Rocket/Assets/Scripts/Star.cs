@@ -1,0 +1,35 @@
+using UnityEngine;
+
+public class Star : MonoBehaviour
+{
+    public Rocket rocket;
+
+    void Start()
+    {
+        rocket = FindFirstObjectByType<Rocket> ();
+    }
+
+    public void Update()
+    {
+        float scale = 1f - (rocket.totalStarsCollected / 10f);
+
+        transform.localScale = new Vector3(
+            scale,
+            scale,
+            scale
+        );
+
+        if (rocket.totalStarsCollected == 9 || rocket.totalStarsCollected >= 9)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Rocket") || other.CompareTag("Bullet"))
+        {
+            Destroy(gameObject);
+        }
+    }
+}
