@@ -11,7 +11,7 @@ public class Star : MonoBehaviour
 
     public void Update()
     {
-        float scale = 1f - (rocket.totalStarsCollected / 10f);
+        float scale = 2f - (rocket.totalStarsCollected / 10f);
 
         transform.localScale = new Vector3(
             scale,

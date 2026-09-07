@@ -38,17 +38,29 @@ public class Rocket : MonoBehaviour
 
     [Space]
 
+    public bool maxWin;
+
+    [Space]
+
     public float shootCooldown;
     private float shootTimer;
 
     [Space]
 
-    public GameObject camera;
     public ObstacleSpawner obstacleSpawner;
     public CashSystem cashSystem;
+
+    [Space]
+
+    public GameObject camera;
     public GameObject bullet;
+    public GameObject basicRocket;
+    public GameObject shuttle;
+    public GameObject jetFighter;
 
     private float divisionTimer;
+
+    [Space]
 
     public TMP_Text Cash;
     public TMP_Text Height;
@@ -104,6 +116,27 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isBasic)
+        {
+            basicRocket.gameObject.SetActive(true);
+            shuttle.gameObject.SetActive(false);
+            jetFighter.gameObject.SetActive(false);
+        }
+
+        if (isShuttle)
+        {
+            basicRocket.SetActive(false);
+            shuttle.SetActive(true);
+            jetFighter.SetActive(false);
+        }
+
+        if (isJetFighter)
+        {
+            basicRocket.gameObject.SetActive(false);
+            shuttle.gameObject.SetActive(false);
+            jetFighter.SetActive(true);
+        }
+
         if (Input.GetKeyDown(KeyCode.Space) && (isLaunching == false))
         {
             if (cashSystem.cash >= baseValue)
@@ -553,7 +586,7 @@ public class Rocket : MonoBehaviour
 
         if (other.CompareTag("Earth"))
         {
-            cashSystem.cash += value;
+            cashSystem.cash += (value * starMultiplier);
 
             Debug.Log(
                 "win " + value
@@ -699,7 +732,7 @@ public class Rocket : MonoBehaviour
                                             }
                                             else
                                             {
-
+                                                MaxWin();
                                             }
                                         }
                                     }
@@ -913,5 +946,10 @@ public class Rocket : MonoBehaviour
 
         totalStarsCollected = 0;
         starMultiplier = 1;
+    }
+
+    public void MaxWin()
+    {
+
     }
 }

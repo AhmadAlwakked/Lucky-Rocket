@@ -295,7 +295,7 @@ public class ObstacleSpawner : MonoBehaviour
             GameObject spawnedObject = Instantiate(
                 prefab,
                 position,
-                transform.rotation,
+                prefab.transform.rotation,
                 parentTransform
             );
 
