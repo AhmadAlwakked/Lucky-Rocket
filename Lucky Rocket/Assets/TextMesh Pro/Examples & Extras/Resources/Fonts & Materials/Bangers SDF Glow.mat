@@ -14,7 +14,6 @@ Material:
   m_ValidKeywords:
   - BEVEL_ON
   - GLOW_ON
-  - UNDERLAY_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
@@ -113,7 +112,7 @@ Material:
     - _FaceColor: {r: 1, g: 1, b: 1, a: 1}
     - _GlowColor: {r: 0.2784524, g: 0, b: 1.4213836, a: 1}
     - _MaskCoord: {r: 0, g: 0, b: 100000, a: 100000}
-    - _OutlineColor: {r: 2.3245068, g: 0, b: 0, a: 1}
+    - _OutlineColor: {r: 1.2050735, g: 0, b: 2.3245068, a: 1}
     - _ReflectFaceColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectOutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0, g: 0, b: 0, a: 1}
