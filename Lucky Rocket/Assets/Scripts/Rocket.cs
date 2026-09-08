@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Threading.Tasks;
+using UnityEngine.UI;
 
 public class Rocket : MonoBehaviour
 {
-    [Header("Rocket Type")]
     public bool isBasic;
     public bool isShuttle;
     public bool isJetFighter;
     public bool loseFuel;
 
-    [Header("Launch")]
+    [Space]
+
+    public int startBet;
+    float betCooldown = 0f;
+
+    [Space]
     public bool isLaunching;
     public float MaxLaunch;
     public float launchSpeed = 8f;
@@ -21,7 +26,8 @@ public class Rocket : MonoBehaviour
     public float height;
     public int health;
 
-    [Header("Speed Increase")]
+    [Space]
+
     public float speedIncrease = 0.1f;
     public float speedIncreaseGrowth = 0.1f;
     private float speedTimer;
@@ -30,7 +36,7 @@ public class Rocket : MonoBehaviour
 
     public float baseValue;
     public float value;
-    public float multiplier = 1f;
+    public float multiplier = 1f; 
 
     [Space]
 
@@ -68,6 +74,14 @@ public class Rocket : MonoBehaviour
     public TMP_Text Speed;
     public TMP_Text MaxWinText;
 
+    [Space]
+
+    public Button buttonNormalRocket;
+    public Button buttonShuttle;
+    public Button buttonJetFighter;
+
+    public Button betLower;
+    public Button betHigher;
 
     // --------------------------------
     // BLACK HOLE
@@ -103,11 +117,12 @@ public class Rocket : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         isLaunching = false;
 
         transform.position = new Vector3(0, -5, 0);
-
-        value = baseValue * multiplier;
 
         totalStarsCollected = 0;
 
@@ -116,12 +131,70 @@ public class Rocket : MonoBehaviour
         MaxWinText.gameObject.SetActive(false);
 
         health = 1;
+
+        buttonNormalRocket.gameObject.SetActive(true);
+        buttonShuttle.gameObject.SetActive(true);
+        buttonJetFighter.gameObject.SetActive(true);
+
+        betLower.gameObject.SetActive(true);
+        betHigher.gameObject.SetActive(true);
+
+        startBet = 0;
+
+        buttonNormalRocket.onClick.AddListener(() =>
+        {
+            isBasic = true;
+            isShuttle = false;
+            isJetFighter = false;
+        });
+
+        buttonShuttle.onClick.AddListener(() =>
+        {
+            isBasic = false;
+            isShuttle = true;
+            isJetFighter = false;
+        });
+
+        buttonJetFighter.onClick.AddListener(() =>
+        {
+            isBasic = false;
+            isShuttle = false;
+            isJetFighter = true;
+        });
+
+        betLower.onClick.AddListener(() =>
+        {
+            if (betCooldown > 0f)
+                return;
+
+            if (startBet > 0)
+            {
+                startBet -= 1;
+            }
+        });
+
+        betHigher.onClick.AddListener(() =>
+        {
+            if (betCooldown > 0f)
+                return;
+
+            if (startBet < 26)
+            {
+                startBet += 1;
+            }
+        });
     }
 
 
     // Update is called once per frame
     void Update()
     {
+        // Cooldown aftellen
+        if (betCooldown > 0f)
+        {
+            betCooldown -= Time.deltaTime;
+        }
+
         if (isBasic)
         {
             basicRocket.gameObject.SetActive(true);
@@ -293,7 +366,7 @@ public class Rocket : MonoBehaviour
                     shootTimer +=
                         Time.deltaTime;
 
-                    if (Input.GetKeyDown(KeyCode.Mouse0) &&
+                    if (Input.GetKeyDown(KeyCode.Mouse0) && shootTimer >= shootCooldown || Input.GetKeyDown(KeyCode.Space) &&
                         shootTimer >= shootCooldown)
                     {
                         Debug.Log("Shoot");
@@ -346,9 +419,204 @@ public class Rocket : MonoBehaviour
             multiplier = Mathf.Round((value / baseValue) * 100f) / 100f;
         }
 
+        if (startBet == 0)
+        {
+            baseValue = 0.1f;
+        }
+        else
+        {
+            if (startBet == 1)
+            {
+                baseValue = 0.2f;
+            }
+            else
+            {
+                if (startBet == 2)
+                {
+                    baseValue = 0.5f;
+                }
+                else
+                {
+                    if (startBet == 3)
+                    {
+                        baseValue = 1;
+                    }
+                    else
+                    {
+                        if (startBet == 4)
+                        {
+                            baseValue = 1.5f;
+                        }
+                        else
+                        {
+                            if (startBet == 5)
+                            {
+                                baseValue = 2;
+                            }
+                            else
+                            {
+                                if (startBet == 6)
+                                {
+                                    baseValue = 2.5f;
+                                }
+                                else
+                                {
+                                    if (startBet == 7)
+                                    {
+                                        baseValue = 3;
+                                    }
+                                    else
+                                    {
+                                        if (startBet == 8)
+                                        {
+                                            baseValue = 3.5f;
+                                        }
+                                        else
+                                        {
+                                            if (startBet == 9)
+                                            {
+                                                baseValue = 4;
+                                            }
+                                            else
+                                            {
+                                                if (startBet == 10)
+                                                {
+                                                    baseValue = 4.5f;
+                                                }
+                                                else
+                                                {
+                                                    if (startBet == 11)
+                                                    {
+                                                        baseValue = 5;
+                                                    }
+                                                    else
+                                                    {
+                                                        if (startBet == 12)
+                                                        {
+                                                            baseValue = 6;
+                                                        }
+                                                        else
+                                                        {
+                                                            if (startBet == 13)
+                                                            {
+                                                                baseValue = 7;
+                                                            }
+                                                            else
+                                                            {
+                                                                if (startBet == 14)
+                                                                {
+                                                                    baseValue = 8;
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (startBet == 15)
+                                                                    {
+                                                                        baseValue = 9;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        if (startBet == 16)
+                                                                        {
+                                                                            baseValue = 10;
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            if (startBet == 17)
+                                                                            {
+                                                                                baseValue = 11;
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                if (startBet == 18)
+                                                                                {
+                                                                                    baseValue = 12;
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    if (startBet == 19)
+                                                                                    {
+                                                                                        baseValue = 13;
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        if (startBet == 20)
+                                                                                        {
+                                                                                            baseValue = 14;
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            if (startBet == 21)
+                                                                                            {
+                                                                                                baseValue = 15;
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                if (startBet == 22)
+                                                                                                {
+                                                                                                    baseValue = 16;
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    if (startBet == 23)
+                                                                                                    {
+                                                                                                        baseValue = 17;
+                                                                                                    }
+                                                                                                    else
+                                                                                                    {
+                                                                                                        if (startBet == 24)
+                                                                                                        {
+                                                                                                            baseValue = 18;
+                                                                                                        }
+                                                                                                        else
+                                                                                                        {
+                                                                                                            if (startBet == 25)
+                                                                                                            {
+                                                                                                                baseValue = 19;
+                                                                                                            }
+                                                                                                            else
+                                                                                                            {
+                                                                                                                if (startBet == 26)
+                                                                                                                {
+                                                                                                                    baseValue = 20;
+                                                                                                                }
+                                                                                                                else
+                                                                                                                {
+                                                                                                                    Debug.Log("Invalid Startbet");
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
+        if (!isLaunching)
+        {
+            value = baseValue;
+        }
+        
         Cash.text =
-            value.ToString("F2");
+                value.ToString("F2");
 
         Height.text =
             "Height: " +
@@ -551,6 +819,9 @@ public class Rocket : MonoBehaviour
 
     public void Launch()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
         if (isShuttle)
         {
             turnSpeed = 10;
@@ -586,6 +857,13 @@ public class Rocket : MonoBehaviour
         MaxWinText.gameObject.SetActive( false );
 
         obstacleSpawner.SpawnObjects();
+
+        buttonNormalRocket.gameObject.SetActive(false);
+        buttonShuttle.gameObject.SetActive(false);
+        buttonJetFighter.gameObject.SetActive(false);
+
+        betLower.gameObject.SetActive(false);
+        betHigher.gameObject.SetActive(false);
     }
 
 
@@ -908,6 +1186,9 @@ public class Rocket : MonoBehaviour
 
     public void ResetRocket()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         transform.position =
             new Vector3(
                 0,
@@ -978,16 +1259,12 @@ public class Rocket : MonoBehaviour
         totalStarsCollected = 0;
         starMultiplier = 1;
 
-        if (isShuttle)
-        {
-            Rigidbody childRigidbody =
-            GetComponentInChildren<Rigidbody>();
+        buttonNormalRocket.gameObject.SetActive(true);
+        buttonShuttle.gameObject.SetActive(true);
+        buttonJetFighter.gameObject.SetActive(true);
 
-            if (childRigidbody = null)
-            {
-                childRigidbody.useGravity = false;
-            }
-        }
+        betLower.gameObject.SetActive(true);
+        betHigher.gameObject.SetActive(true);
     }
 
     public void MaxWin()
