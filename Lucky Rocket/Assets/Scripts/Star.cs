@@ -19,7 +19,7 @@ public class Star : MonoBehaviour
             scale
         );
 
-        if (rocket.totalStarsCollected == 9 || rocket.totalStarsCollected >= 9)
+        if (rocket.totalStarsCollected == 10 || rocket.totalStarsCollected >= 10)
         {
             Destroy(gameObject);
         }

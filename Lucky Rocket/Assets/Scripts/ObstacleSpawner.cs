@@ -9,6 +9,7 @@ public class ObstacleSpawner : MonoBehaviour
     public GameObject earth;
     public GameObject blackHole;
     public GameObject stars;
+    public GameObject shield;
 
     public Transform parentTransform;
 
@@ -32,6 +33,9 @@ public class ObstacleSpawner : MonoBehaviour
 
     [Range(0, 100)]
     public int maxStars;
+
+    [Range(0, 100)]
+    public int maxShields;
 
     [Space]
 
@@ -137,6 +141,8 @@ public class ObstacleSpawner : MonoBehaviour
         float maxY
     )
     {
+
+
         for (int i = 0; i < maxObstacles; i++)
             Spawn(obstacles, square, minX, maxX, minY, maxY);
 
@@ -162,11 +168,19 @@ public class ObstacleSpawner : MonoBehaviour
             }
         }
 
-        if (Random.Range(0, 10) == 0 && rocket.totalStarsCollected < 9)
+        if (Random.Range(0, 10) == 0 && rocket.totalStarsCollected < 10)
         {
             for (int i = 0; i < maxStars; i++)
             {
                 Spawn(stars, square, minX, maxX, minY, maxY);
+            }
+        }
+
+        if (Random.Range(0, 10) == 0)
+        {
+            for (int i = 0; i < maxShields; i++)
+            {
+                Spawn(shield, square, minX, maxX, minY, maxY);
             }
         }
     }
@@ -249,7 +263,8 @@ public class ObstacleSpawner : MonoBehaviour
                      hit.CompareTag("Divider") ||
                      hit.CompareTag("Earth") ||
                      hit.CompareTag("BlackHole") ||
-                     hit.CompareTag("Star")))
+                     hit.CompareTag("Star") ||
+                     hit.CompareTag("Shield")))
                 {
                     touchingObject = true;
                     break;
@@ -322,7 +337,8 @@ public class ObstacleSpawner : MonoBehaviour
                      hit.CompareTag("Divider") ||
                      hit.CompareTag("Earth") ||
                      hit.CompareTag("BlackHole") ||
-                     hit.CompareTag("Star")))
+                     hit.CompareTag("Star") ||
+                     hit.CompareTag("SHields")))
                 {
                     touchingObject = true;
                     break;

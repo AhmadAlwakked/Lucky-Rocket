@@ -19,6 +19,7 @@ public class Rocket : MonoBehaviour
     public float speed;
     public int turnSpeed;
     public float height;
+    public int health;
 
     [Header("Speed Increase")]
     public float speedIncrease = 0.1f;
@@ -65,6 +66,7 @@ public class Rocket : MonoBehaviour
     public TMP_Text Cash;
     public TMP_Text Height;
     public TMP_Text Speed;
+    public TMP_Text MaxWinText;
 
 
     // --------------------------------
@@ -110,6 +112,10 @@ public class Rocket : MonoBehaviour
         totalStarsCollected = 0;
 
         starMultiplier = 1;
+
+        MaxWinText.gameObject.SetActive(false);
+
+        health = 1;
     }
 
 
@@ -150,6 +156,10 @@ public class Rocket : MonoBehaviour
             }
         }
 
+        if (health == 0 && health <= 0)
+        {
+            Die();
+        }
 
         // --------------------------------
         // BLACK HOLE MOVEMENT
@@ -267,6 +277,13 @@ public class Rocket : MonoBehaviour
                     {
                         turnSpeed = 20;
                         loseFuel = true;
+
+                        Rigidbody childRigidbody = GetComponentInChildren<Rigidbody>();
+
+                        if (childRigidbody != null)
+                        {
+                            childRigidbody.useGravity = true;
+                        }
                     }
                 }
 
@@ -324,8 +341,9 @@ public class Rocket : MonoBehaviour
                 }
             }
 
-            height =
-                transform.position.y + 5;
+            height = transform.position.y + 5;
+
+            multiplier = Mathf.Round((value / baseValue) * 100f) / 100f;
         }
 
 
@@ -565,6 +583,7 @@ public class Rocket : MonoBehaviour
             speed = 5;
         }
 
+        MaxWinText.gameObject.SetActive( false );
 
         obstacleSpawner.SpawnObjects();
     }
@@ -578,9 +597,15 @@ public class Rocket : MonoBehaviour
     {
         if (other.CompareTag("Obstacle"))
         {
-            Debug.Log("die");
-
-            Die();
+            if (health > 0)
+            {
+                health -= 1;
+            }
+            else
+            {
+                Die();
+                Debug.Log("Die");
+            }
         }
 
 
@@ -745,6 +770,11 @@ public class Rocket : MonoBehaviour
 
             totalStarsCollected += 1;
         }
+
+        if (other.CompareTag("Shield"))
+        {
+            health = 2;
+        }
     }
 
 
@@ -897,6 +927,7 @@ public class Rocket : MonoBehaviour
 
         turnSpeed = 20;
 
+        health = 1;
 
         transform.rotation =
             Quaternion.Euler(
@@ -946,10 +977,27 @@ public class Rocket : MonoBehaviour
 
         totalStarsCollected = 0;
         starMultiplier = 1;
+
+        if (isShuttle)
+        {
+            Rigidbody childRigidbody =
+            GetComponentInChildren<Rigidbody>();
+
+            if (childRigidbody = null)
+            {
+                childRigidbody.useGravity = false;
+            }
+        }
     }
 
     public void MaxWin()
     {
+        cashSystem.cash += (baseValue * 20000);
 
+        Debug.Log("Max Win");
+
+        MaxWinText.gameObject.SetActive(true);
+
+        ResetRocket();
     }
 }

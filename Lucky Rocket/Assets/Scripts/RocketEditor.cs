@@ -21,14 +21,14 @@ public class RocketEditor : Editor
 
         EditorGUILayout.Space();
 
-        EditorGUILayout.LabelField("Value:", rocket.value + "$");
+        EditorGUILayout.LabelField("Value:", rocket.value.ToString("F2") + "$");
         EditorGUILayout.LabelField("Multiplier", rocket.multiplier + "x");
 
         float totalValue = rocket.value * rocket.multiplier;
 
         EditorGUILayout.Space();
 
-        EditorGUILayout.LabelField("Total Value:", totalValue + "$");
+        EditorGUILayout.LabelField("Total Value:", totalValue.ToString("F2") + "$");
     }
 }
 #endif
