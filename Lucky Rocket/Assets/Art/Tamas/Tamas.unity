@@ -144,14 +144,14 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 83568090}
   m_Enabled: 1
-  serializedVersion: 11
+  serializedVersion: 12
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
+  m_CookieSize2D: {x: 10, y: 10}
   m_Shadows:
     m_Type: 2
     m_Resolution: -1
@@ -387,7 +387,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d345e1efeef5b6a45be84c6e1af3d7d2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.814
+      value: -5.023
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d345e1efeef5b6a45be84c6e1af3d7d2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -420,7 +420,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: d345e1efeef5b6a45be84c6e1af3d7d2, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: ce3fc6952d7de0b4a9fe304e43e934c0, type: 2}
+      objectReference: {fileID: 2100000, guid: 9a1691ba129817a43bcd5c81c2c7846f, type: 2}
     - target: {fileID: 919132149155446097, guid: d345e1efeef5b6a45be84c6e1af3d7d2, type: 3}
       propertyPath: m_Name
       value: SpeedBoost
@@ -438,6 +438,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 751430626066183336, guid: c21de1bce8fa7a14c97c397776bdc7db, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 21af536ead1ca204eb346dc7d7efd7cb, type: 2}
     - target: {fileID: 1255768020038030717, guid: c21de1bce8fa7a14c97c397776bdc7db, type: 3}
       propertyPath: m_Name
       value: Star
