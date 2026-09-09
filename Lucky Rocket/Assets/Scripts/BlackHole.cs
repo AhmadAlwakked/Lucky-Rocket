@@ -12,8 +12,8 @@ public class BlackHole : MonoBehaviour
     public GameObject multiplier;
 
     [Header("Spawn")]
-    public int minObjects = 2;
-    public int maxObjects = 5;
+    public int minObjects;
+    public int maxObjects;
 
     [Header("Orbit")]
     public float rotationSpeed = 100f;
@@ -48,7 +48,6 @@ public class BlackHole : MonoBehaviour
 
         if (!sizeInitialized)
         {
-            Debug.LogError("BlackHole size is not initialized by ObstacleSpawner!");
             return;
         }
 
@@ -96,7 +95,7 @@ public class BlackHole : MonoBehaviour
                 minObjects,
                 maxObjects,
                 Mathf.InverseLerp(
-                    0f,
+                    3.5f,
                     10f,
                     size
                 )
@@ -115,13 +114,13 @@ public class BlackHole : MonoBehaviour
         // Kies willekeurig Multiplier of Divider
         GameObject prefab;
 
-        if (Random.Range(0, 2) == 0)
+        if (Random.Range(0, 4) == 0)
         {
-            prefab = multiplier;
+            prefab = divider;
         }
         else
         {
-            prefab = divider;
+            prefab = multiplier;
         }
 
         if (prefab == null)
@@ -131,7 +130,7 @@ public class BlackHole : MonoBehaviour
 
 
         // Willekeurige afstand vanaf het midden
-        float blackHoleRadius = size / 2f;
+        float blackHoleRadius = size / 2;
 
         float radius = Random.Range(
             blackHoleRadius * minOrbitRadius,
@@ -142,7 +141,6 @@ public class BlackHole : MonoBehaviour
         // Willekeurige beginhoek
         float angle = Random.Range(0f, 360f);
 
-
         // Object maken
         GameObject spawnedObject = Instantiate(
             prefab,
@@ -151,16 +149,15 @@ public class BlackHole : MonoBehaviour
             transform
         );
 
+        MultiplierScript multiplierScript = spawnedObject.GetComponent<MultiplierScript>();
 
-        // Box Collider uitschakelen
-        BoxCollider boxCollider =
-            spawnedObject.GetComponent<BoxCollider>();
-
-        if (boxCollider != null)
+        if (multiplierScript != null)
         {
-            boxCollider.enabled = false;
-        }
+            multiplierScript.spawnedByBlackHole = true;
+            multiplierScript.blackHoleLuck = 2f;
 
+            multiplierScript.RandomMultiplier();
+        }
 
         // Positie berekenen
         float radians = angle * Mathf.Deg2Rad;

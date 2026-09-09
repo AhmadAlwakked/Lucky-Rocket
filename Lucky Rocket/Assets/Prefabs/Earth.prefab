@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 685140072696147818}
   - component: {fileID: -7418057273451496560}
   - component: {fileID: 3242461646046253470}
+  - component: {fileID: 2655921109314962583}
   m_Layer: 0
   m_Name: Earth
   m_TagString: Earth
@@ -153,3 +154,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8c3f9085ca64f949a32442ffebee48d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Earth
+--- !u!114 &2655921109314962583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6246427577951138343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef5e2c67a0c4573438487d5c7e7bb7e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RocketCollision

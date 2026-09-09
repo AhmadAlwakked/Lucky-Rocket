@@ -135,7 +135,6 @@ MonoBehaviour:
   - 3
   - 2
   plus:
-  - 1x
   - 2x
   - 3x
   - 4x
@@ -152,6 +151,8 @@ MonoBehaviour:
   activeMultiplier: 0
   activePlus: 
   multiplierText: {fileID: 3794686044963003555}
+  spawnedByBlackHole: 0
+  blackHoleLuck: 5
 --- !u!54 &-601973791700291069
 Rigidbody:
   m_ObjectHideFlags: 0

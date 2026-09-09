@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8359165209855131906}
   - component: {fileID: 4338270513320661614}
   - component: {fileID: 1097812534283736666}
+  - component: {fileID: 4588947026091349997}
   m_Layer: 0
   m_Name: space shuttle rocket
   m_TagString: Rocket
@@ -142,6 +143,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4588947026091349997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3033795649547014824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef5e2c67a0c4573438487d5c7e7bb7e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RocketCollision
 --- !u!1 &7947118680785530128
 GameObject:
   m_ObjectHideFlags: 0

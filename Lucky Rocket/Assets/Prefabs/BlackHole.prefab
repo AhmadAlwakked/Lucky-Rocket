@@ -156,11 +156,11 @@ MonoBehaviour:
   size: 0
   divider: {fileID: 6801505451908709942, guid: 5ff11a8862ad9194d98f6e2667eb2ea9, type: 3}
   multiplier: {fileID: 5521374380756789307, guid: 81fed102c6387fe40a5aee890923e0c6, type: 3}
-  minObjects: 2
-  maxObjects: 7
-  rotationSpeed: 100
+  minObjects: 25
+  maxObjects: 50
+  rotationSpeed: 50
   minOrbitRadius: 0.25
   maxOrbitRadius: 0.85
-  minObjectScale: 0.75
-  maxObjectScale: 1.5
+  minObjectScale: 0.1
+  maxObjectScale: 0.2
   sizeRandomness: 0.1

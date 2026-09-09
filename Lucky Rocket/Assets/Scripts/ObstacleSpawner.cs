@@ -338,7 +338,7 @@ public class ObstacleSpawner : MonoBehaviour
                      hit.CompareTag("Earth") ||
                      hit.CompareTag("BlackHole") ||
                      hit.CompareTag("Star") ||
-                     hit.CompareTag("SHields")))
+                     hit.CompareTag("Shield")))
                 {
                     touchingObject = true;
                     break;

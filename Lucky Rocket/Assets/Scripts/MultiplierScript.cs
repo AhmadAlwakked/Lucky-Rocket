@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
 public class MultiplierScript : MonoBehaviour
@@ -13,6 +13,9 @@ public class MultiplierScript : MonoBehaviour
     public string activePlus;
     public TMP_Text multiplierText;
 
+    public bool spawnedByBlackHole = false;
+    public float blackHoleLuck = 2f;
+
     void Start()
     {
         RandomMultiplier();
@@ -23,9 +26,36 @@ public class MultiplierScript : MonoBehaviour
         activeMultiplier = 0;
         activePlus = "";
 
+        float[] currentPlusChances = (float[])plusChances.Clone();
+        float[] currentMultiplierChances = (float[])multiplierChances.Clone();
+
+        if (spawnedByBlackHole)
+        {
+            // Hogere multipliers krijgen steeds meer bonus.
+            // blackHoleLuck = 2:
+            // 2x  → ×1.00
+            // 3x  → ×1.20
+            // 4x  → ×1.40
+            // 5x  → ×1.60
+            // 7x  → ×1.80
+            // 10x → ×2.00
+
+            for (int i = 0; i < currentPlusChances.Length; i++)
+            {
+                currentPlusChances[i] *=
+                    1f + ((blackHoleLuck - 1f) * i / (plusChances.Length - 1));
+            }
+
+            for (int i = 0; i < currentMultiplierChances.Length; i++)
+            {
+                currentMultiplierChances[i] *=
+                    1f + ((blackHoleLuck - 1f) * i / (multiplierChances.Length - 1));
+            }
+        }
+
         if (Random.Range(0, 4) == 0)
         {
-            int randomIndex = GetWeightedIndex(plusChances);
+            int randomIndex = GetWeightedIndex(currentPlusChances);
             activePlus = plus[randomIndex];
 
             if (activePlus == "1x")
@@ -36,7 +66,7 @@ public class MultiplierScript : MonoBehaviour
         }
         else
         {
-            int randomIndex = GetWeightedIndex(multiplierChances);
+            int randomIndex = GetWeightedIndex(currentMultiplierChances);
             activeMultiplier = multipliers[randomIndex];
         }
 
@@ -82,6 +112,8 @@ public class MultiplierScript : MonoBehaviour
         }
 
         if (other.CompareTag("Bullet"))
+        {
             Destroy(gameObject);
+        }
     }
 }
