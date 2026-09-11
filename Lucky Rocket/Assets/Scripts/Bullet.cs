@@ -2,11 +2,15 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float speed;
+    public Rocket rocket;
 
+    public void Start()
+    {
+        rocket = FindFirstObjectByType<Rocket>();
+    }
     public void Update()
     {
-        transform.Translate(Vector3.up * speed * Time.deltaTime);
+        transform.Translate(Vector3.up * rocket.speed * 2 * Time.deltaTime);
     }
 
     public void OnTriggerEnter(Collider other)
