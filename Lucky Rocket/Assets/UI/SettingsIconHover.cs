@@ -4,7 +4,8 @@ using System.Collections;
 
 public class SettingsIconHover : MonoBehaviour, IPointerEnterHandler
 {
-    [SerializeField] private RectTransform settingsIcon;
+    [SerializeField] private RectTransform leftIcon;
+    [SerializeField] private RectTransform rightIcon;
     [SerializeField] private float rotationDuration = 0.5f;
 
     private bool isRotating = false;
@@ -13,16 +14,20 @@ public class SettingsIconHover : MonoBehaviour, IPointerEnterHandler
     {
         if (!isRotating)
         {
-            StartCoroutine(RotateIcon());
+            StartCoroutine(RotateIcons());
         }
     }
 
-    private IEnumerator RotateIcon()
+    private IEnumerator RotateIcons()
     {
         isRotating = true;
 
-        float startRotation = settingsIcon.localEulerAngles.z;
-        float endRotation = startRotation + 360f;
+        float leftStart = leftIcon.localEulerAngles.z;
+        float rightStart = rightIcon.localEulerAngles.z;
+
+        float leftEnd = leftStart - 360f;
+        float rightEnd = rightStart + 360f;
+
         float time = 0f;
 
         while (time < rotationDuration)
@@ -32,13 +37,17 @@ public class SettingsIconHover : MonoBehaviour, IPointerEnterHandler
             float t = time / rotationDuration;
             t = Mathf.SmoothStep(0f, 1f, t);
 
-            float rotation = Mathf.Lerp(startRotation, endRotation, t);
-            settingsIcon.localEulerAngles = new Vector3(0f, 0f, rotation);
+            float leftRotation = Mathf.Lerp(leftStart, leftEnd, t);
+            float rightRotation = Mathf.Lerp(rightStart, rightEnd, t);
+
+            leftIcon.localEulerAngles = new Vector3(0f, 0f, leftRotation);
+            rightIcon.localEulerAngles = new Vector3(0f, 0f, rightRotation);
 
             yield return null;
         }
 
-        settingsIcon.localEulerAngles = new Vector3(0f, 0f, endRotation);
+        leftIcon.localEulerAngles = new Vector3(0f, 0f, leftEnd);
+        rightIcon.localEulerAngles = new Vector3(0f, 0f, rightEnd);
 
         isRotating = false;
     }
