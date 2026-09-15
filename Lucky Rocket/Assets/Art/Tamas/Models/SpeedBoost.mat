@@ -60,7 +60,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2D:
-        m_Texture: {fileID: 2800000, guid: 9a5b5638944499842bf1e68c12c28009, type: 3}
+        m_Texture: {fileID: 2800000, guid: da02d16e4a504ee4c9237e0938ee1dd5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 1, y: 1}
     m_Ints: []
@@ -75,6 +75,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _IsEnabled: 0
     - _Metallic: 0
     - _Mode: 0
     - _ModelSize: 1
