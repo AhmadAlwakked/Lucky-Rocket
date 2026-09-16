@@ -92,9 +92,8 @@ public class Rocket : MonoBehaviour
 
     [Header("Black Hole")]
     public float blackHolePullSpeed = 0.5f;
-    public float blackHoleCenterDistance = 0.1f;
 
-    private BlackHole currentBlackHole;
+    public BlackHole currentBlackHole;
     private BlackHole exitedBlackHole;
 
     private float blackHoleOrbitRadius;
@@ -104,13 +103,9 @@ public class Rocket : MonoBehaviour
 
     private bool blackHoleMiniGameStarted = false;
 
-    private Quaternion blackHoleRocketRotation;
-
     private Vector3 blackHoleOriginalScale;
 
     private float blackHoleStartRadius;
-
-    public float blackHoleDownSpeed;
 
     private float blackHoleAngle;
 
@@ -131,9 +126,6 @@ public class Rocket : MonoBehaviour
     public float blackHoleTurnSwingAmount = 8f;
 
     private float blackHoleSwingTime;
-    [Space]
-
-    public float cameraSmoothSpeed = 3f;
 
     void Start()
     {
@@ -251,7 +243,9 @@ public class Rocket : MonoBehaviour
 
         if (health == 0 && health <= 0)
         {
-            Die();
+            cashSystem.die.gameObject.SetActive(true);
+
+            StartCoroutine(Die());
         }
 
         stars.text = "stars: " + totalStarsCollected;
@@ -328,7 +322,7 @@ public class Rocket : MonoBehaviour
 
             if (Input.GetKey(KeyCode.R))
             {
-                Die();
+                ResetRocket();
             }
 
             Vector3 rotation =
@@ -429,7 +423,11 @@ public class Rocket : MonoBehaviour
                     if (value < 0 ||
                         value == 0)
                     {
-                        Die();
+                        cashSystem.SetDieText("Out of Fuel");
+
+                        cashSystem.die.gameObject.SetActive(true);
+
+                        StartCoroutine(Die());
 
                         Debug.Log(
                             "No Fuel"
@@ -818,29 +816,6 @@ public class Rocket : MonoBehaviour
                     0f,
                     smoothRotation
                 );
-
-
-            // --------------------------------
-            // BLACK HOLE VERLATEN
-            // --------------------------------
-
-            if (currentBlackHole != null)
-            {
-                float distanceFromBlackHole =
-                    Vector3.Distance(
-                        transform.position,
-                        currentBlackHole.transform.position
-                    );
-
-                // Rocket is ver genoeg van de Black Hole
-                if (distanceFromBlackHole >
-                    currentBlackHole.size)
-                {
-                    ExitBlackHole();
-                    return;
-                }
-            }
-
             return;
         }
 
@@ -1086,14 +1061,6 @@ public class Rocket : MonoBehaviour
 
 
         // --------------------------------
-        // ROTATIE OPSLAAN
-        // --------------------------------
-
-        blackHoleRocketRotation =
-            transform.rotation;
-
-
-        // --------------------------------
         // SCHAAL OPSLAAN
         // --------------------------------
 
@@ -1144,9 +1111,6 @@ public class Rocket : MonoBehaviour
         difference.y,
         difference.x
     );
-        // Rocket blijft dezelfde richting houden
-        transform.rotation =
-            blackHoleRocketRotation;
     }
 
     public void ExitBlackHole()
@@ -1240,9 +1204,6 @@ public class Rocket : MonoBehaviour
         blackHoleStartRadius = 0f;
         blackHoleAngle = 0f;
 
-        // Rotatie herstellen
-        transform.rotation = blackHoleRocketRotation;
-
         exitingBlackHole = false;
     }
 
@@ -1251,11 +1212,27 @@ public class Rocket : MonoBehaviour
     // DIE
     // --------------------------------
 
-    public void Die()
+    public IEnumerator WinDie()
     {
+        Time.timeScale = 0f;
+
+        yield return new WaitForSecondsRealtime(2f);
+
         ResetRocket();
+
+        Time.timeScale = 1f;
     }
 
+    public IEnumerator Die()
+    {
+        Time.timeScale = 0f;
+
+        yield return new WaitForSecondsRealtime(1f);
+
+        ResetRocket();
+
+        Time.timeScale = 1f;
+    }
 
     // --------------------------------
     // RESET
@@ -1321,9 +1298,6 @@ public class Rocket : MonoBehaviour
 
         blackHoleCurrentRadius = 0f;
 
-        blackHoleRocketRotation =
-            Quaternion.identity;
-
         blackHoleOriginalScale =
             Vector3.zero;
 
@@ -1339,6 +1313,10 @@ public class Rocket : MonoBehaviour
 
         betLower.gameObject.SetActive(true);
         betHigher.gameObject.SetActive(true);
+
+        cashSystem.totalWin.gameObject.SetActive(false);
+
+        cashSystem.die.gameObject.SetActive(false);
     }
 
     public void MaxWin()

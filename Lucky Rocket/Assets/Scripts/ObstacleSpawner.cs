@@ -141,8 +141,6 @@ public class ObstacleSpawner : MonoBehaviour
         float maxY
     )
     {
-
-
         for (int i = 0; i < maxObstacles; i++)
             Spawn(obstacles, square, minX, maxX, minY, maxY);
 
@@ -160,7 +158,7 @@ public class ObstacleSpawner : MonoBehaviour
             }
         }
 
-        if (Random.Range(0, 4) == 0)
+        if (Random.Range(0, 5) == 0)
         {
             for (int i = 0; i < maxBlackHoles; i++)
             {

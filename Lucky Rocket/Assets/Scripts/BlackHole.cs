@@ -114,7 +114,7 @@ public class BlackHole : MonoBehaviour
         // Kies willekeurig Multiplier of Divider
         GameObject prefab;
 
-        if (Random.Range(0, 4) == 0)
+        if (Random.Range(0, 5) == 0)
         {
             prefab = divider;
         }

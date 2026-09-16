@@ -159,7 +159,7 @@ MonoBehaviour:
   minObjects: 25
   maxObjects: 50
   rotationSpeed: 25
-  minOrbitRadius: 0.25
+  minOrbitRadius: 0.1
   maxOrbitRadius: 0.85
   minObjectScale: 0.1
   maxObjectScale: 0.15
