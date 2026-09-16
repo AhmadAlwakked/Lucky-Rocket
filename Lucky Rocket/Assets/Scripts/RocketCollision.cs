@@ -122,4 +122,16 @@ public class RocketCollision : MonoBehaviour
             rocket.health = 2;
         }
     }
+    
+    private void OnTriggerExit(Collider other)
+    {
+        // Black Hole verlaten
+        if (other.CompareTag("BlackHole"))
+        {
+            if (rocket.inBlackHole)
+            {
+                rocket.ExitBlackHole();
+            }
+        }
+    }
 }

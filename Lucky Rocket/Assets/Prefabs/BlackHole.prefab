@@ -158,9 +158,9 @@ MonoBehaviour:
   multiplier: {fileID: 5521374380756789307, guid: 81fed102c6387fe40a5aee890923e0c6, type: 3}
   minObjects: 25
   maxObjects: 50
-  rotationSpeed: 50
+  rotationSpeed: 25
   minOrbitRadius: 0.25
   maxOrbitRadius: 0.85
   minObjectScale: 0.1
-  maxObjectScale: 0.2
+  maxObjectScale: 0.15
   sizeRandomness: 0.1

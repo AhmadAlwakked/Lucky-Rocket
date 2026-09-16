@@ -1,7 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,6 +40,10 @@ public class Rocket : MonoBehaviour
 
     public int totalStarsCollected;
     public float starMultiplier;
+
+    [Space]
+
+    public TMP_Text stars;
 
     [Space]
 
@@ -94,6 +95,7 @@ public class Rocket : MonoBehaviour
     public float blackHoleCenterDistance = 0.1f;
 
     private BlackHole currentBlackHole;
+    private BlackHole exitedBlackHole;
 
     private float blackHoleOrbitRadius;
     private float blackHoleCurrentRadius;
@@ -111,15 +113,24 @@ public class Rocket : MonoBehaviour
     public float blackHoleDownSpeed;
 
     private float blackHoleAngle;
-    private bool blackHoleMovingDown = false;
 
     private bool blackHoleMiniGameActive = false;
 
+    private bool exitingBlackHole = false;
+
     public float blackHoleRocketSpeed;
+
+    public int blackHoleTurnSpeed;
 
     [Header("Black Hole Mini Game")]
     public float blackHoleMiniGameScale;
 
+    [Header("Black Hole Swing")]
+    public float blackHoleSwingAmount = 5f;
+    public float blackHoleSwingSpeed = 4f;
+    public float blackHoleTurnSwingAmount = 8f;
+
+    private float blackHoleSwingTime;
     [Space]
 
     public float cameraSmoothSpeed = 3f;
@@ -242,6 +253,8 @@ public class Rocket : MonoBehaviour
         {
             Die();
         }
+
+        stars.text = "stars: " + totalStarsCollected;
 
         // --------------------------------
         // BLACK HOLE MOVEMENT
@@ -682,9 +695,17 @@ public class Rocket : MonoBehaviour
                     camera.transform.position.z
                 );
 
+
             // --------------------------------
-            // OMHOOG BEWEGEN
+            // ROCKET OMHOOG
             // --------------------------------
+
+            float pullSwing =
+                Mathf.Sin(
+                    blackHoleSwingTime *
+                    blackHoleSwingSpeed
+                ) *
+                0.15f;
 
             transform.Translate(
                 Vector3.up *
@@ -692,65 +713,136 @@ public class Rocket : MonoBehaviour
                 Time.deltaTime
             );
 
+            transform.position +=
+                Vector3.right *
+                pullSwing *
+                Time.deltaTime;
+
 
             // --------------------------------
-            // LINKS
+            // BESTURING
             // --------------------------------
+
+            float inputDirection = 0f;
 
             if (Input.GetKey(KeyCode.A) ||
                 Input.GetKey(KeyCode.LeftArrow))
             {
-                transform.Rotate(
-                    Vector3.forward *
-                    turnSpeed *
-                    Time.deltaTime
-                );
+                inputDirection = 1f;
             }
-
-
-            // --------------------------------
-            // RECHTS
-            // --------------------------------
 
             if (Input.GetKey(KeyCode.D) ||
                 Input.GetKey(KeyCode.RightArrow))
             {
-                transform.Rotate(
-                    Vector3.back *
-                    turnSpeed *
-                    Time.deltaTime
-                );
+                inputDirection = -1f;
             }
+
+
+            // --------------------------------
+            // ROCKET BESTUREN
+            // --------------------------------
+
+            float currentRotation =
+                transform.eulerAngles.z;
+
+            if (currentRotation > 180f)
+            {
+                currentRotation -= 360f;
+            }
+
+            currentRotation +=
+                inputDirection *
+                blackHoleTurnSpeed *
+                Time.deltaTime;
+
+
+            // --------------------------------
+            // BLACK HOLE SWING
+            // --------------------------------
+
+            blackHoleSwingTime += Time.deltaTime;
+
+            float blackHoleSwing =
+                Mathf.Sin(
+                    blackHoleSwingTime *
+                    blackHoleSwingSpeed
+                ) *
+                blackHoleSwingAmount;
+
+
+            // --------------------------------
+            // EXTRA BEWEGING TIJDENS STUREN
+            // --------------------------------
+
+            float steeringSwing =
+                inputDirection *
+                blackHoleTurnSwingAmount;
+
+
+            // --------------------------------
+            // TOTALE ROTATIE
+            // --------------------------------
+
+            float swingTargetRotation =
+                currentRotation +
+                blackHoleSwing +
+                steeringSwing;
 
 
             // --------------------------------
             // MAXIMAAL 30 GRADEN
             // --------------------------------
 
-            Vector3 miniGameRotation =
-                transform.eulerAngles;
-
-            float miniGameZRotation =
-                miniGameRotation.z > 180f
-                    ? miniGameRotation.z - 360f
-                    : miniGameRotation.z;
-
-            miniGameZRotation =
+            swingTargetRotation =
                 Mathf.Clamp(
-                    miniGameZRotation,
+                    swingTargetRotation,
                     -30f,
                     30f
                 );
 
-            miniGameRotation.z =
-                miniGameZRotation;
 
-            transform.eulerAngles =
-                miniGameRotation;
+            // --------------------------------
+            // SOEPEL NAAR ROTATIE
+            // --------------------------------
+
+            float smoothRotation =
+                Mathf.LerpAngle(
+                    transform.eulerAngles.z,
+                    swingTargetRotation,
+                    8f * Time.deltaTime
+                );
+
+            transform.rotation =
+                Quaternion.Euler(
+                    0f,
+                    0f,
+                    smoothRotation
+                );
+
+
+            // --------------------------------
+            // BLACK HOLE VERLATEN
+            // --------------------------------
+
+            if (currentBlackHole != null)
+            {
+                float distanceFromBlackHole =
+                    Vector3.Distance(
+                        transform.position,
+                        currentBlackHole.transform.position
+                    );
+
+                // Rocket is ver genoeg van de Black Hole
+                if (distanceFromBlackHole >
+                    currentBlackHole.size)
+                {
+                    ExitBlackHole();
+                    return;
+                }
+            }
 
             return;
         }
-
 
         Vector3 blackHolePosition =
                 currentBlackHole.transform.position;
@@ -977,12 +1069,15 @@ public class Rocket : MonoBehaviour
     // ENTER BLACK HOLE
     // --------------------------------
 
-    public void EnterBlackHole(
-        BlackHole blackHole
-    )
+    public void EnterBlackHole(BlackHole blackHole)
     {
-        currentBlackHole =
-            blackHole;
+        // Voorkom dat dezelfde Black Hole opnieuw wordt getriggerd
+        if (blackHole == exitedBlackHole)
+        {
+            return;
+        }
+
+        currentBlackHole = blackHole;
 
         inBlackHole = true;
 
@@ -1049,14 +1144,108 @@ public class Rocket : MonoBehaviour
         difference.y,
         difference.x
     );
-
-        blackHoleMovingDown = false;
-
-
         // Rocket blijft dezelfde richting houden
         transform.rotation =
             blackHoleRocketRotation;
     }
+
+    public void ExitBlackHole()
+    {
+        if (exitingBlackHole)
+            return;
+
+        Debug.Log("Exit BlackHole");
+
+        exitingBlackHole = true;
+
+        StartCoroutine(SmoothExitBlackHole());
+    }
+
+    private IEnumerator SmoothExitBlackHole()
+    {
+        // Black Hole onthouden
+        exitedBlackHole = currentBlackHole;
+
+        // Referenties bewaren
+        Camera cam = camera.GetComponent<Camera>();
+
+        Vector3 startScale = transform.localScale;
+        Vector3 targetScale =
+            blackHoleOriginalScale == Vector3.zero
+                ? Vector3.one
+                : blackHoleOriginalScale;
+
+        float startFOV = cam != null
+            ? cam.fieldOfView
+            : 60f;
+
+        float targetFOV = 60f;
+
+        // Hoe lang de exit duurt
+        float duration = 1.2f;
+
+        float timer = 0f;
+
+        // Smooth exit
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+
+            float t = Mathf.Clamp01(timer / duration);
+
+            // SmoothStep geeft een veel zachtere beweging
+            t = Mathf.SmoothStep(0f, 1f, t);
+
+            // Rocket groter maken
+            transform.localScale =
+                Vector3.Lerp(
+                    startScale,
+                    targetScale,
+                    t
+                );
+
+            // Camera uitzoomen
+            if (cam != null)
+            {
+                cam.fieldOfView =
+                    Mathf.Lerp(
+                        startFOV,
+                        targetFOV,
+                        t
+                    );
+            }
+
+            yield return null;
+        }
+
+        // Exact eindpunt instellen
+        transform.localScale = targetScale;
+
+        if (cam != null)
+        {
+            cam.fieldOfView = targetFOV;
+        }
+
+        // Black Hole verlaten
+        inBlackHole = false;
+
+        currentBlackHole = null;
+
+        blackHoleMiniGameStarted = false;
+        blackHoleMiniGameActive = false;
+
+        // Black Hole variabelen resetten
+        blackHoleOrbitRadius = 0f;
+        blackHoleCurrentRadius = 0f;
+        blackHoleStartRadius = 0f;
+        blackHoleAngle = 0f;
+
+        // Rotatie herstellen
+        transform.rotation = blackHoleRocketRotation;
+
+        exitingBlackHole = false;
+    }
+
 
     // --------------------------------
     // DIE
