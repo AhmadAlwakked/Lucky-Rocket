@@ -1737,6 +1737,10 @@ PrefabInstance:
       propertyPath: rocket
       value: 
       objectReference: {fileID: 1662848876}
+    - target: {fileID: 4588947026091349997, guid: 42d48cd1a7c00bd4fb1c861d07d7774c, type: 3}
+      propertyPath: cashSystem
+      value: 
+      objectReference: {fileID: 974949410}
     - target: {fileID: 7632964349845874221, guid: 42d48cd1a7c00bd4fb1c861d07d7774c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2226,6 +2230,11 @@ MonoBehaviour:
   balance: {fileID: 1405740932}
   totalWin: {fileID: 919021181}
   die: {fileID: 1634125821}
+--- !u!1 &980905606 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7947118680785530128, guid: 42d48cd1a7c00bd4fb1c861d07d7774c, type: 3}
+  m_PrefabInstance: {fileID: 894771409}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1003347452
 GameObject:
   m_ObjectHideFlags: 0
@@ -3664,7 +3673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RocketCollision
   rocket: {fileID: 1662848876}
-  cashSystem: {fileID: 0}
+  cashSystem: {fileID: 974949410}
 --- !u!1 &1439074446
 GameObject:
   m_ObjectHideFlags: 0
@@ -4002,6 +4011,7 @@ MonoBehaviour:
   basicRocket: {fileID: 309351143}
   shuttle: {fileID: 2016629932}
   jetFighter: {fileID: 1423786835}
+  fuelTank: {fileID: 980905606}
   Cash: {fileID: 1024508702}
   Height: {fileID: 1793779236}
   Speed: {fileID: 196191766}
@@ -4012,16 +4022,14 @@ MonoBehaviour:
   betLower: {fileID: 473194869}
   betHigher: {fileID: 1067909667}
   blackHolePullSpeed: 0.5
-  blackHoleCenterDistance: 0.1
+  currentBlackHole: {fileID: 0}
   inBlackHole: 0
-  blackHoleDownSpeed: 0.5
   blackHoleRocketSpeed: 0.25
   blackHoleTurnSpeed: 60
   blackHoleMiniGameScale: 0.1
   blackHoleSwingAmount: 2
   blackHoleSwingSpeed: 4
   blackHoleTurnSwingAmount: 8
-  cameraSmoothSpeed: 3
 --- !u!1 &1793779234
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,18 +4,44 @@ public class Bullet : MonoBehaviour
 {
     public Rocket rocket;
 
-    public void Start()
+    public bool isBlackHoleBullet;
+
+    private void Start()
     {
         rocket = FindFirstObjectByType<Rocket>();
-    }
-    public void Update()
-    {
-        transform.Translate(Vector3.up * rocket.speed * 2 * Time.deltaTime);
+
+        // Black Hole bullet wordt kleiner
+        if (isBlackHoleBullet)
+        {
+            transform.localScale = Vector3.one * 0.05f;
+        }
     }
 
-    public void OnTriggerEnter(Collider other)
+    private void Update()
     {
-        if (other.CompareTag("Obstacle") || other.CompareTag("Multiplier") || other.CompareTag("Divider") || other.CompareTag("Earth") || other.CompareTag("Star"))
+        float bulletSpeed;
+
+        if (isBlackHoleBullet)
+        {
+            bulletSpeed = rocket.blackHoleRocketSpeed * 3f;
+        }
+        else
+        {
+            bulletSpeed = rocket.speed * 2f;
+        }
+
+        transform.Translate(
+            Vector3.up * bulletSpeed * Time.deltaTime
+        );
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Obstacle") ||
+            other.CompareTag("Multiplier") ||
+            other.CompareTag("Divider") ||
+            other.CompareTag("Earth") ||
+            other.CompareTag("Star"))
         {
             Destroy(gameObject);
         }

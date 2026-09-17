@@ -68,6 +68,11 @@ public class Rocket : MonoBehaviour
     public GameObject shuttle;
     public GameObject jetFighter;
 
+    public GameObject fuelTank;
+    private Transform fuelTankOriginalParent;
+    private Vector3 fuelTankOriginalPosition;
+    private Quaternion fuelTankOriginalRotation;
+
     private float divisionTimer;
 
     [Space]
@@ -126,6 +131,8 @@ public class Rocket : MonoBehaviour
     public float blackHoleTurnSwingAmount = 8f;
 
     private float blackHoleSwingTime;
+
+    private bool deathStarted = false;
 
     void Start()
     {
@@ -195,6 +202,10 @@ public class Rocket : MonoBehaviour
                 startBet += 1;
             }
         });
+
+        fuelTankOriginalParent = fuelTank.transform.parent;
+        fuelTankOriginalPosition = fuelTank.transform.localPosition;
+        fuelTankOriginalRotation = fuelTank.transform.localRotation;
     }
 
 
@@ -232,6 +243,7 @@ public class Rocket : MonoBehaviour
         {
             if (cashSystem.cash >= baseValue)
             {
+                isLaunching = true;
                 Launch();
                 cashSystem.cash -= baseValue;
             }
@@ -241,8 +253,10 @@ public class Rocket : MonoBehaviour
             }
         }
 
-        if (health == 0 && health <= 0)
+        if (health <= 0 && !deathStarted)
         {
+            deathStarted = true;
+
             cashSystem.die.gameObject.SetActive(true);
 
             StartCoroutine(Die());
@@ -298,28 +312,6 @@ public class Rocket : MonoBehaviour
                 }
             }
 
-
-            if (Input.GetKey(KeyCode.A) ||
-                Input.GetKey(KeyCode.LeftArrow))
-            {
-                transform.Rotate(
-                    Vector3.forward *
-                    turnSpeed *
-                    Time.deltaTime
-                );
-            }
-
-
-            if (Input.GetKey(KeyCode.D) ||
-                Input.GetKey(KeyCode.RightArrow))
-            {
-                transform.Rotate(
-                    Vector3.back *
-                    turnSpeed *
-                    Time.deltaTime
-                );
-            }
-
             if (Input.GetKey(KeyCode.R))
             {
                 ResetRocket();
@@ -364,19 +356,40 @@ public class Rocket : MonoBehaviour
 
             if (transform.position.y >= MaxLaunch)
             {
+                if (Input.GetKey(KeyCode.A) ||
+                   Input.GetKey(KeyCode.LeftArrow))
+                {
+                    transform.Rotate(
+                        Vector3.forward *
+                        turnSpeed *
+                        Time.deltaTime
+                    );
+                }
+
+
+                if (Input.GetKey(KeyCode.D) ||
+                    Input.GetKey(KeyCode.RightArrow))
+                {
+                    transform.Rotate(
+                        Vector3.back *
+                        turnSpeed *
+                        Time.deltaTime
+                    );
+                }
+
                 if (isShuttle)
                 {
-                    if (Input.GetKey(KeyCode.Space))
+                    if (Input.GetKeyDown(KeyCode.Space) && !loseFuel)
                     {
                         turnSpeed = 20;
                         loseFuel = true;
 
-                        Rigidbody childRigidbody = GetComponentInChildren<Rigidbody>();
+                        // Tank losmaken van de shuttle
+                        fuelTank.transform.SetParent(null);
 
-                        if (childRigidbody != null)
-                        {
-                            childRigidbody.useGravity = true;
-                        }
+                        Rigidbody rb = fuelTank.GetComponent<Rigidbody>();
+                        rb.isKinematic = false;
+                        rb.useGravity = true;
                     }
                 }
 
@@ -654,12 +667,13 @@ public class Rocket : MonoBehaviour
     // BLACK HOLE UPDATE
     // --------------------------------
 
-    // --------------------------------
-    // BLACK HOLE UPDATE
-    // --------------------------------
-
     public void UpdateBlackHole()
     {
+        if (Input.GetKey(KeyCode.R))
+        {
+            ResetRocket();
+        }
+
         if (currentBlackHole == null)
         {
             inBlackHole = false;
@@ -816,6 +830,37 @@ public class Rocket : MonoBehaviour
                     0f,
                     smoothRotation
                 );
+
+            if (isJetFighter)
+            {
+                shootTimer +=
+                    Time.deltaTime;
+
+                if (Input.GetKeyDown(KeyCode.Mouse0) && shootTimer >= shootCooldown || Input.GetKeyDown(KeyCode.Space) &&
+                    shootTimer >= shootCooldown)
+                {
+                    Vector3 position =
+                        new Vector3(
+                            transform.position.x,
+                            transform.position.y,
+                            transform.position.z
+                        );
+                    GameObject newBullet = Instantiate(
+                        bullet,
+                        position,
+                        transform.rotation
+                    );
+
+                    Bullet bulletScript = newBullet.GetComponent<Bullet>();
+
+                    if (bulletScript != null)
+                    {
+                        bulletScript.isBlackHoleBullet = true;
+                    }
+
+                    shootTimer = 0f;
+                }
+            }
             return;
         }
 
@@ -823,118 +868,118 @@ public class Rocket : MonoBehaviour
                 currentBlackHole.transform.position;
 
 
-            // --------------------------------
-            // NAAR DE EERSTE BAAN
-            // --------------------------------
+        // --------------------------------
+        // NAAR DE EERSTE BAAN
+        // --------------------------------
 
-            blackHoleCurrentRadius =
-                Mathf.MoveTowards(
-                    blackHoleCurrentRadius,
-                    blackHoleOrbitRadius,
-                    blackHolePullSpeed *
-                    Time.deltaTime
-                );
-
-
-            // --------------------------------
-            // VOORTGANG
-            // --------------------------------
-
-            float pullProgress =
-                Mathf.InverseLerp(
-                    blackHoleStartRadius,
-                    blackHoleOrbitRadius,
-                    blackHoleCurrentRadius
-                );
-
-            pullProgress =
-                Mathf.Clamp01(
-                    pullProgress
-                );
+        blackHoleCurrentRadius =
+            Mathf.MoveTowards(
+                blackHoleCurrentRadius,
+                blackHoleOrbitRadius,
+                blackHolePullSpeed *
+                Time.deltaTime
+            );
 
 
-            // --------------------------------
-            // BOOG NAAR BENEDEN
-            // --------------------------------
+        // --------------------------------
+        // VOORTGANG
+        // --------------------------------
 
-            float targetAngle =
-                -Mathf.PI / 2f;
+        float pullProgress =
+            Mathf.InverseLerp(
+                blackHoleStartRadius,
+                blackHoleOrbitRadius,
+                blackHoleCurrentRadius
+            );
 
-            float currentAngle =
-                Mathf.Lerp(
-                    blackHoleAngle,
-                    targetAngle,
-                    pullProgress
-                );
-
-
-            float x =
-                blackHolePosition.x +
-                Mathf.Cos(currentAngle) *
-                blackHoleCurrentRadius;
-
-            float y =
-                blackHolePosition.y +
-                Mathf.Sin(currentAngle) *
-                blackHoleCurrentRadius;
+        pullProgress =
+            Mathf.Clamp01(
+                pullProgress
+            );
 
 
-            transform.position =
-                new Vector3(
-                    x,
-                    y,
-                    transform.position.z
-                );
+        // --------------------------------
+        // BOOG NAAR BENEDEN
+        // --------------------------------
+
+        float targetAngle =
+            -Mathf.PI / 2f;
+
+        float currentAngle =
+            Mathf.Lerp(
+                blackHoleAngle,
+                targetAngle,
+                pullProgress
+            );
 
 
-            // --------------------------------
-            // KLEINER WORDEN
-            // --------------------------------
+        float x =
+            blackHolePosition.x +
+            Mathf.Cos(currentAngle) *
+            blackHoleCurrentRadius;
 
-            float targetScale =
-                Mathf.Lerp(
-                    1f,
-                    blackHoleMiniGameScale,
-                    pullProgress
-                );
+        float y =
+            blackHolePosition.y +
+            Mathf.Sin(currentAngle) *
+            blackHoleCurrentRadius;
 
-            transform.localScale =
-                blackHoleOriginalScale *
-                targetScale;
 
-            // --------------------------------
-            // CAMERA VOLGT ROCKET + ZOOM
-            // --------------------------------
-            Camera cam =
-                camera.GetComponent<Camera>();
+        transform.position =
+            new Vector3(
+                x,
+                y,
+                transform.position.z
+            );
 
-            // Inzoomen
-            cam.fieldOfView =
-                Mathf.Lerp(
-                    60f,
-                    6f,
-                    pullProgress
-                );
 
-            // Camera-offset aanpassen aan de zoom
-            float cameraOffset =
-                5f *
-                Mathf.Tan(
-                    cam.fieldOfView * 0.5f *
-                    Mathf.Deg2Rad
-                ) /
-                Mathf.Tan(
-                    60f * 0.5f *
-                    Mathf.Deg2Rad
-                );
+        // --------------------------------
+        // KLEINER WORDEN
+        // --------------------------------
 
-            // Camera volgt de rocket
-            camera.transform.position =
-                new Vector3(
-                    transform.position.x,
-                    transform.position.y + cameraOffset,
-                    camera.transform.position.z
-                );
+        float targetScale =
+            Mathf.Lerp(
+                1f,
+                blackHoleMiniGameScale,
+                pullProgress
+            );
+
+        transform.localScale =
+            blackHoleOriginalScale *
+            targetScale;
+
+        // --------------------------------
+        // CAMERA VOLGT ROCKET + ZOOM
+        // --------------------------------
+        Camera cam =
+            camera.GetComponent<Camera>();
+
+        // Inzoomen
+        cam.fieldOfView =
+            Mathf.Lerp(
+                60f,
+                6f,
+                pullProgress
+            );
+
+        // Camera-offset aanpassen aan de zoom
+        float cameraOffset =
+            5f *
+            Mathf.Tan(
+                cam.fieldOfView * 0.5f *
+                Mathf.Deg2Rad
+            ) /
+            Mathf.Tan(
+                60f * 0.5f *
+                Mathf.Deg2Rad
+            );
+
+        // Camera volgt de rocket
+        camera.transform.position =
+            new Vector3(
+                transform.position.x,
+                transform.position.y + cameraOffset,
+                camera.transform.position.z
+            );
 
         // --------------------------------
         // ROCKET DRAAIT MEE MET DE BLACK HOLE
@@ -973,18 +1018,18 @@ public class Rocket : MonoBehaviour
 
         if (targetScale <=
                 blackHoleMiniGameScale)
-            {
-                transform.localScale =
-                    blackHoleOriginalScale *
-                    blackHoleMiniGameScale;
+        {
+            transform.localScale =
+                blackHoleOriginalScale *
+                blackHoleMiniGameScale;
 
-                if (!blackHoleMiniGameStarted)
-                {
-                    blackHoleMiniGameStarted = true;
-                    blackHoleMiniGameActive = true;
-                }
+            if (!blackHoleMiniGameStarted)
+            {
+                blackHoleMiniGameStarted = true;
+                blackHoleMiniGameActive = true;
             }
         }
+    }
 
 
     // --------------------------------
@@ -1005,8 +1050,6 @@ public class Rocket : MonoBehaviour
         {
             loseFuel = true;
         }
-
-        isLaunching = true;
 
         multiplier = 1;
 
@@ -1117,8 +1160,6 @@ public class Rocket : MonoBehaviour
     {
         if (exitingBlackHole)
             return;
-
-        Debug.Log("Exit BlackHole");
 
         exitingBlackHole = true;
 
@@ -1250,8 +1291,6 @@ public class Rocket : MonoBehaviour
                 0
             );
 
-        isLaunching = false;
-
         speed = 0;
 
         multiplier = 1;
@@ -1317,6 +1356,17 @@ public class Rocket : MonoBehaviour
         cashSystem.totalWin.gameObject.SetActive(false);
 
         cashSystem.die.gameObject.SetActive(false);
+
+        Rigidbody rb = fuelTank.GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+        rb.useGravity = false;
+
+        fuelTank.transform.SetParent(fuelTankOriginalParent);
+        fuelTank.transform.localPosition = fuelTankOriginalPosition;
+        fuelTank.transform.localRotation = fuelTankOriginalRotation;
+
+        isLaunching = false;
+        deathStarted = false;
     }
 
     public void MaxWin()
