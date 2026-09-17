@@ -81,6 +81,7 @@ public class Rocket : MonoBehaviour
     public TMP_Text Height;
     public TMP_Text Speed;
     public TMP_Text MaxWinText;
+    public TMP_Text Bet;
 
     [Space]
 
@@ -223,6 +224,8 @@ public class Rocket : MonoBehaviour
             basicRocket.gameObject.SetActive(true);
             shuttle.gameObject.SetActive(false);
             jetFighter.gameObject.SetActive(false);
+
+            Bet.text = baseValue.ToString();
         }
 
         if (isShuttle)
@@ -230,6 +233,8 @@ public class Rocket : MonoBehaviour
             basicRocket.SetActive(false);
             shuttle.SetActive(true);
             jetFighter.SetActive(false);
+
+            Bet.text = (baseValue * 10).ToString();
         }
 
         if (isJetFighter)
@@ -237,19 +242,55 @@ public class Rocket : MonoBehaviour
             basicRocket.gameObject.SetActive(false);
             shuttle.gameObject.SetActive(false);
             jetFighter.SetActive(true);
+
+            Bet.text = (baseValue * 100).ToString();
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && (isLaunching == false))
         {
-            if (cashSystem.cash >= baseValue)
+            if (isBasic)
             {
-                isLaunching = true;
-                Launch();
-                cashSystem.cash -= baseValue;
+                if (cashSystem.cash >= baseValue)
+                {
+                    isLaunching = true;
+                    Launch();
+                    cashSystem.cash -= baseValue;
+                }
+                else
+                {
+                    Debug.Log("Not Enough Cash");
+                }
             }
-            else
+
+            if (isShuttle)
             {
-                Debug.Log("Not Enough Cash");
+                if (cashSystem.cash >= baseValue * 10)
+                {
+                    isLaunching = true;
+                    Launch();
+                    cashSystem.cash -= baseValue * 10;
+                }
+                else
+                {
+                    Debug.Log("Not Enough cash");
+                }
+            }
+
+            if (isJetFighter)
+            {
+                if (cashSystem.cash >= baseValue * 100)
+                {
+                    isLaunching = true;
+                    Launch();
+                    if (cashSystem.cash >= baseValue)
+                    {
+                        cashSystem.cash -= baseValue * 100;
+                    }
+                }
+                else
+                {
+                    Debug.Log("Not Enough Cash");
+                }
             }
         }
 
@@ -325,8 +366,8 @@ public class Rocket : MonoBehaviour
                     rotation.z > 180
                         ? rotation.z - 360
                         : rotation.z,
-                    -30f,
-                    30f
+                    -40,
+                    40f
                 );
 
             transform.eulerAngles =
@@ -381,7 +422,7 @@ public class Rocket : MonoBehaviour
                 {
                     if (Input.GetKeyDown(KeyCode.Space) && !loseFuel)
                     {
-                        turnSpeed = 20;
+                        turnSpeed = 30;
                         loseFuel = true;
 
                         // Tank losmaken van de shuttle
@@ -808,8 +849,8 @@ public class Rocket : MonoBehaviour
             swingTargetRotation =
                 Mathf.Clamp(
                     swingTargetRotation,
-                    -30f,
-                    30f
+                    -40f,
+                    40f
                 );
 
 
@@ -1081,6 +1122,8 @@ public class Rocket : MonoBehaviour
 
         betLower.gameObject.SetActive(false);
         betHigher.gameObject.SetActive(false);
+
+        Bet.gameObject.SetActive(false);
     }
 
     // --------------------------------
@@ -1352,6 +1395,8 @@ public class Rocket : MonoBehaviour
 
         betLower.gameObject.SetActive(true);
         betHigher.gameObject.SetActive(true);
+
+        Bet.gameObject.SetActive(true);
 
         cashSystem.totalWin.gameObject.SetActive(false);
 

@@ -20,6 +20,11 @@ public class CashSystem : MonoBehaviour
     {
         balance.text = "Balance " + cash.ToString("F2");
         totalWin.text = "Total Win: " + (rocket.value * rocket.starMultiplier).ToString("F2");
+
+        if (Input.GetKey(KeyCode.Alpha1))
+        {
+            cash = 2000;
+        }
     }
 
     public void TotalWin()
