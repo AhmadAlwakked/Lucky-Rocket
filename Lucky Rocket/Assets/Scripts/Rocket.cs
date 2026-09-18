@@ -1094,7 +1094,7 @@ public class Rocket : MonoBehaviour
 
         multiplier = 1;
 
-        speed = 2.5f;
+        speed = 2f;
 
         if (isBasic)
         {
@@ -1109,7 +1109,7 @@ public class Rocket : MonoBehaviour
         if (isJetFighter)
         {
             turnSpeed = 30;
-            speed = 5;
+            speed = 3;
         }
 
         MaxWinText.gameObject.SetActive(false);
