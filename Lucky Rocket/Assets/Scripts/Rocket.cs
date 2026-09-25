@@ -303,7 +303,7 @@ public class Rocket : MonoBehaviour
             StartCoroutine(Die());
         }
 
-        stars.text = "stars: " + totalStarsCollected;
+        stars.text = "stars: " + totalStarsCollected + " (X" + starMultiplier.ToString("F2") + ")";
 
         // --------------------------------
         // BLACK HOLE MOVEMENT
