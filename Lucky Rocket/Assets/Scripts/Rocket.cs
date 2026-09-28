@@ -1424,4 +1424,9 @@ public class Rocket : MonoBehaviour
 
         ResetRocket();
     }
+
+    public void SpeedBoost()
+    {
+        
+    }
 }

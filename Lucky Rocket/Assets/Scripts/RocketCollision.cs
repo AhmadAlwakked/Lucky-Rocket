@@ -127,6 +127,11 @@ public class RocketCollision : MonoBehaviour
         {
             rocket.health = 2;
         }
+
+        if (other.CompareTag("SpeedBoost"))
+        {
+            rocket.SpeedBoost();
+        }
     }
     
     public IEnumerator OnTriggerExit(Collider other)

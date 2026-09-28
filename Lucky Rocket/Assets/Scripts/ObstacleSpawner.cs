@@ -10,6 +10,7 @@ public class ObstacleSpawner : MonoBehaviour
     public GameObject blackHole;
     public GameObject stars;
     public GameObject shield;
+    public GameObject speedBoost;
 
     public Transform parentTransform;
 
@@ -36,6 +37,9 @@ public class ObstacleSpawner : MonoBehaviour
 
     [Range(0, 100)]
     public int maxShields;
+
+    [Range(0, 100)]
+    public int maxSpeedBoosts;
 
     [Space]
 
@@ -181,6 +185,14 @@ public class ObstacleSpawner : MonoBehaviour
                 Spawn(shield, square, minX, maxX, minY, maxY);
             }
         }
+
+        if (Random.Range(0, 10) == 0)
+        {
+            for (int i = 0; i < maxSpeedBoosts; i++)
+            {
+                Spawn(speedBoost, square, minX, maxX, minY, maxY);
+            }
+        }
     }
 
     void SpawnBlackHole(
@@ -262,7 +274,8 @@ public class ObstacleSpawner : MonoBehaviour
                      hit.CompareTag("Earth") ||
                      hit.CompareTag("BlackHole") ||
                      hit.CompareTag("Star") ||
-                     hit.CompareTag("Shield")))
+                     hit.CompareTag("Shield") ||
+                     hit.CompareTag("SpeedBoost")))
                 {
                     touchingObject = true;
                     break;
@@ -336,7 +349,8 @@ public class ObstacleSpawner : MonoBehaviour
                      hit.CompareTag("Earth") ||
                      hit.CompareTag("BlackHole") ||
                      hit.CompareTag("Star") ||
-                     hit.CompareTag("Shield")))
+                     hit.CompareTag("Shield") ||
+                     hit.CompareTag("SpeedBoost")))
                 {
                     touchingObject = true;
                     break;
