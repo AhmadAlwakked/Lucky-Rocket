@@ -203,9 +203,8 @@ GameObject:
   - component: {fileID: 77808184}
   - component: {fileID: 77808183}
   - component: {fileID: 77808182}
-  - component: {fileID: 77808185}
   m_Layer: 5
-  m_Name: Button
+  m_Name: BuildPanelToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -220,15 +219,15 @@ RectTransform:
   m_GameObject: {fileID: 77808180}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.6666666, y: 0.4, z: 1.6666666}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 48504255}
-  m_Father: {fileID: 201348562}
+  m_Father: {fileID: 1755633439}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -404.86163, y: -13.280006}
+  m_AnchoredPosition: {x: -43.999817, y: -118.00007}
   m_SizeDelta: {x: 45, y: 41}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &77808182
@@ -274,19 +273,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 77808183}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 77808180}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &77808183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,19 +312,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 77808180}
   m_CullTransparentMesh: 1
---- !u!114 &77808185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 77808180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21c31f0dbd239014982cfdc4768fcccf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BuildPanelToggle
-  animator: {fileID: 0}
 --- !u!1 &120350687
 GameObject:
   m_ObjectHideFlags: 0
@@ -863,7 +837,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1037842774}
-  - {fileID: 77808181}
   m_Father: {fileID: 1127107714}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4243,7 +4216,7 @@ GameObject:
   - component: {fileID: 1755633439}
   - component: {fileID: 1755633441}
   - component: {fileID: 1755633440}
-  - component: {fileID: 1755633442}
+  - component: {fileID: 1755633444}
   m_Layer: 5
   m_Name: BulidPanel
   m_TagString: Untagged
@@ -4263,6 +4236,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 77808181}
   - {fileID: 1127107714}
   m_Father: {fileID: 398118130}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4309,23 +4283,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1755633438}
   m_CullTransparentMesh: 1
---- !u!111 &1755633442
-Animation:
+--- !u!114 &1755633444
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1755633438}
   m_Enabled: 1
-  serializedVersion: 4
-  m_Animation: {fileID: 7400000, guid: bf8b8e5bdcaa39d4a86fcb69178a5983, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: bf8b8e5bdcaa39d4a86fcb69178a5983, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_UpdateMode: 0
-  m_CullingType: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21c31f0dbd239014982cfdc4768fcccf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildPanelToggle
+  openPanel: {fileID: 77808182}
+  panel: {fileID: 1755633439}
+  moveAmount: 650
+  moveSpeed: 7
 --- !u!1 &1775471845
 GameObject:
   m_ObjectHideFlags: 0
