@@ -30,10 +30,6 @@ public class Star : MonoBehaviour
     {
         if (other.CompareTag("Rocket") || other.CompareTag("Bullet"))
         {
-            BoxCollider box = other.GetComponent<BoxCollider>();
-
-            box.isTrigger = false;
-
             Vector3 collectPosition = new Vector3(transform.position.x, transform.position.y + 3, transform.position.z);
 
             while (Vector3.Distance(transform.position, collectPosition) > 0.1f)

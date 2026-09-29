@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -8,8 +9,12 @@ public class RocketCollision : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Obstacle"))
+    if (other.CompareTag("Obstacle"))
         {
+            // Tijdens SpeedBoost kan de rocket niet sterven
+            if (rocket.speedBoostInvincible)
+                return;
+
             if (rocket.health > 0)
             {
                 rocket.health -= 1;
@@ -22,6 +27,7 @@ public class RocketCollision : MonoBehaviour
                 }
             }
         }
+
 
         if (other.CompareTag("Earth"))
         {

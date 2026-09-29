@@ -135,6 +135,18 @@ public class Rocket : MonoBehaviour
 
     private bool deathStarted = false;
 
+    [Header("Speed Boost")]
+    public float speedBoostDuration = 2f;
+    public float speedBoostSpeed = 15f;
+
+    private bool speedBoostActive = false;
+    private float speedBeforeBoost;
+    private int turnSpeedBeforeBoost;
+
+    
+    public bool speedBoostInvincible = false;
+
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.None;
@@ -397,25 +409,27 @@ public class Rocket : MonoBehaviour
 
             if (transform.position.y >= MaxLaunch)
             {
-                if (Input.GetKey(KeyCode.A) ||
-                   Input.GetKey(KeyCode.LeftArrow))
+                if (!speedBoostActive)
                 {
-                    transform.Rotate(
-                        Vector3.forward *
-                        turnSpeed *
-                        Time.deltaTime
-                    );
-                }
+                    if (Input.GetKey(KeyCode.A) ||
+                        Input.GetKey(KeyCode.LeftArrow))
+                    {
+                        transform.Rotate(
+                            Vector3.forward *
+                            turnSpeed *
+                            Time.deltaTime
+                        );
+                    }
 
-
-                if (Input.GetKey(KeyCode.D) ||
-                    Input.GetKey(KeyCode.RightArrow))
-                {
-                    transform.Rotate(
-                        Vector3.back *
-                        turnSpeed *
-                        Time.deltaTime
-                    );
+                    if (Input.GetKey(KeyCode.D) ||
+                        Input.GetKey(KeyCode.RightArrow))
+                    {
+                        transform.Rotate(
+                            Vector3.back *
+                            turnSpeed *
+                            Time.deltaTime
+                        );
+                    }
                 }
 
                 if (isShuttle)
@@ -443,12 +457,27 @@ public class Rocket : MonoBehaviour
                     if (Input.GetKeyDown(KeyCode.Mouse0) && shootTimer >= shootCooldown || Input.GetKeyDown(KeyCode.Space) &&
                         shootTimer >= shootCooldown)
                     {
-                        Vector3 position =
-                            new Vector3(
-                                transform.position.x,
-                                transform.position.y,
-                                transform.position.z
-                            );
+
+                        Vector3 position;
+
+                        if (inBlackHole)
+                        {
+                            position =
+                                new Vector3(
+                                    transform.position.x,
+                                    transform.position.y,
+                                    transform.position.z
+                                );
+                        }
+                        else
+                        {
+                            position =
+                                new Vector3(
+                                    transform.position.x,
+                                    transform.position.y + 2,
+                                    transform.position.z
+                                );
+                        }
 
                         Instantiate(
                             bullet,
@@ -1424,9 +1453,49 @@ public class Rocket : MonoBehaviour
 
         ResetRocket();
     }
-
     public void SpeedBoost()
     {
-        
+        if (speedBoostActive)
+            return;
+
+        StartCoroutine(SpeedBoostCoroutine());
+    }
+
+private IEnumerator SpeedBoostCoroutine()
+    {
+        speedBoostActive = true;
+        speedBoostInvincible = true;
+
+        // Huidige waarden bewaren
+        speedBeforeBoost = speed;
+        turnSpeedBeforeBoost = turnSpeed;
+
+        // Rocket direct recht omhoog zetten
+        transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+
+        // Extra snelheid
+        speed = speedBoostSpeed;
+
+        float timer = 0f;
+
+        while (timer < speedBoostDuration)
+        {
+            timer += Time.deltaTime;
+
+            // Blijf recht omhoog wijzen
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+
+            yield return null;
+        }
+
+        // Normale snelheid herstellen
+        speed = speedBeforeBoost;
+
+        // Normale besturing herstellen
+        turnSpeed = turnSpeedBeforeBoost;
+
+        // Weer kwetsbaar maken
+        speedBoostInvincible = false;
+        speedBoostActive = false;
     }
 }
