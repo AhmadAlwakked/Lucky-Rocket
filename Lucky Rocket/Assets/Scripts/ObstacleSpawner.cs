@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ObstacleSpawner : MonoBehaviour
 {
-    public GameObject obstacles;
+    public List<GameObject> obstacles = new List<GameObject>();
     public GameObject multiplier;
     public GameObject divider;
     public GameObject earth;
@@ -146,7 +146,22 @@ public class ObstacleSpawner : MonoBehaviour
     )
     {
         for (int i = 0; i < maxObstacles; i++)
-            Spawn(obstacles, square, minX, maxX, minY, maxY);
+        {
+            if (obstacles.Count > 0)
+            {
+                GameObject randomObstacle =
+                    obstacles[Random.Range(0, obstacles.Count)];
+
+                Spawn(
+                    randomObstacle,
+                    square,
+                    minX,
+                    maxX,
+                    minY,
+                    maxY
+                );
+            }
+        }
 
         for (int i = 0; i < maxMultipliers; i++)
             Spawn(multiplier, square, minX, maxX, minY, maxY);

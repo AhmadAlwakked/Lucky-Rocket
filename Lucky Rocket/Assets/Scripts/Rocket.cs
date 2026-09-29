@@ -457,27 +457,12 @@ public class Rocket : MonoBehaviour
                     if (Input.GetKeyDown(KeyCode.Mouse0) && shootTimer >= shootCooldown || Input.GetKeyDown(KeyCode.Space) &&
                         shootTimer >= shootCooldown)
                     {
-
-                        Vector3 position;
-
-                        if (inBlackHole)
-                        {
-                            position =
+                           Vector3 position =
                                 new Vector3(
                                     transform.position.x,
                                     transform.position.y,
                                     transform.position.z
                                 );
-                        }
-                        else
-                        {
-                            position =
-                                new Vector3(
-                                    transform.position.x,
-                                    transform.position.y + 2,
-                                    transform.position.z
-                                );
-                        }
 
                         Instantiate(
                             bullet,
