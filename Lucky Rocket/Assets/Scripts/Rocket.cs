@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Security.Cryptography.X509Certificates;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -59,6 +60,7 @@ public class Rocket : MonoBehaviour
     public ObstacleSpawner obstacleSpawner;
     public CashSystem cashSystem;
     public BlackHole blackHole;
+    public BuildPanelToggle buildPanelToggle;
 
     [Space]
 
@@ -178,6 +180,8 @@ public class Rocket : MonoBehaviour
             isBasic = true;
             isShuttle = false;
             isJetFighter = false;
+
+            buildPanelToggle.TogglePanel();
         });
 
         buttonShuttle.onClick.AddListener(() =>
@@ -185,6 +189,8 @@ public class Rocket : MonoBehaviour
             isBasic = false;
             isShuttle = true;
             isJetFighter = false;
+
+            buildPanelToggle.TogglePanel();
         });
 
         buttonJetFighter.onClick.AddListener(() =>
@@ -192,6 +198,8 @@ public class Rocket : MonoBehaviour
             isBasic = false;
             isShuttle = false;
             isJetFighter = true;
+
+            buildPanelToggle.TogglePanel();
         });
 
         betLower.onClick.AddListener(() =>
@@ -461,7 +469,7 @@ public class Rocket : MonoBehaviour
                                 new Vector3(
                                     transform.position.x,
                                     transform.position.y,
-                                    transform.position.z
+                                    transform.position.z + 0.1f
                                 );
 
                         Instantiate(
@@ -1138,6 +1146,13 @@ public class Rocket : MonoBehaviour
         betHigher.gameObject.SetActive(false);
 
         Bet.gameObject.SetActive(false);
+
+        if (buildPanelToggle.open == true)
+        {
+            buildPanelToggle.TogglePanel();
+        }
+
+        buildPanelToggle.gameObject.SetActive(false);
     }
 
     // --------------------------------
@@ -1415,6 +1430,8 @@ public class Rocket : MonoBehaviour
         cashSystem.totalWin.gameObject.SetActive(false);
 
         cashSystem.die.gameObject.SetActive(false);
+
+        buildPanelToggle.gameObject.SetActive(true);
 
         Rigidbody rb = fuelTank.GetComponent<Rigidbody>();
         rb.isKinematic = true;

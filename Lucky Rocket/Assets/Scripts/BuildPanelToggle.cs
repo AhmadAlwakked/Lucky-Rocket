@@ -9,7 +9,7 @@ public class BuildPanelToggle : MonoBehaviour
     public float moveAmount = 25f;
     public float moveSpeed = 5f;
 
-    private bool open = false;
+    public bool open = false;
     private Vector2 closedPosition;
     private Vector2 targetPosition;
 
@@ -30,7 +30,7 @@ public class BuildPanelToggle : MonoBehaviour
         );
     }
 
-    void TogglePanel()
+    public void TogglePanel()
     {
         open = !open;
 
