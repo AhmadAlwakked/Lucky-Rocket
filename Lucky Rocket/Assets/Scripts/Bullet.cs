@@ -23,11 +23,11 @@ public class Bullet : MonoBehaviour
 
         if (isBlackHoleBullet)
         {
-            bulletSpeed = rocket.blackHoleRocketSpeed * 3f;
+            bulletSpeed = rocket.blackHoleRocketSpeed * 5f;
         }
         else
         {
-            bulletSpeed = rocket.speed * 2f;
+            bulletSpeed = rocket.speed * 3f;
         }
 
         transform.Translate(
