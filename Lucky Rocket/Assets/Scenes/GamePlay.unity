@@ -1722,7 +1722,7 @@ MonoBehaviour:
   speedBoost: {fileID: 3957521485887888177, guid: 664576dcc32f70047b5e6f85d1e033af, type: 3}
   parentTransform: {fileID: 283502233}
   maxObstacles: 10
-  maxMultipliers: 3
+  maxMultipliers: 10
   maxDividers: 5
   maxEarth: 1
   maxBlackHoles: 1
@@ -2308,8 +2308,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef5e2c67a0c4573438487d5c7e7bb7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  rocket: {fileID: 0}
-  cashSystem: {fileID: 0}
+  rocket: {fileID: 1662848876}
+  cashSystem: {fileID: 974949410}
 --- !u!54 &869317028
 Rigidbody:
   m_ObjectHideFlags: 0

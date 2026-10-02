@@ -498,6 +498,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: e93a967e0e931e046b455e9a11a99bbf, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e93a967e0e931e046b455e9a11a99bbf, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e93a967e0e931e046b455e9a11a99bbf, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e93a967e0e931e046b455e9a11a99bbf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -536,6 +548,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e93a967e0e931e046b455e9a11a99bbf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e93a967e0e931e046b455e9a11a99bbf, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e93a967e0e931e046b455e9a11a99bbf, type: 3}
       propertyPath: m_Name
@@ -629,6 +645,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Obstacles
   health: 3
   healthSlider: {fileID: 4220947484422910449}
+  minRotationSpeed: 10
+  maxRotationSpeed: 50
 --- !u!4 &6732185338169539179 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e93a967e0e931e046b455e9a11a99bbf, type: 3}
