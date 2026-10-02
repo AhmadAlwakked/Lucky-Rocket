@@ -2780,7 +2780,7 @@
     "m_ObjectId": "e6dfd336ca644cb4a970f4a63bbf2962",
     "m_Title": "Color and Texture",
     "m_Position": {
-        "x": -1489.9998779296875,
+        "x": -1490.0,
         "y": -266.0
     }
 }
@@ -2893,8 +2893,8 @@
     "m_ObjectId": "f4302569ce234a89bbd7f837ba94e952",
     "m_Title": "Change size of model",
     "m_Position": {
-        "x": -745.9998779296875,
-        "y": -278.0000305175781
+        "x": -746.0,
+        "y": -278.0
     }
 }
 
@@ -2927,7 +2927,7 @@
     "m_Title": "Alpha stuff",
     "m_Position": {
         "x": -892.0,
-        "y": 103.0
+        "y": 102.99996948242188
     }
 }
 
