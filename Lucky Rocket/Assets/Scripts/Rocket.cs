@@ -465,12 +465,11 @@ public class Rocket : MonoBehaviour
                     if (Input.GetKeyDown(KeyCode.Mouse0) && shootTimer >= shootCooldown || Input.GetKeyDown(KeyCode.Space) &&
                         shootTimer >= shootCooldown)
                     {
-                           Vector3 position =
-                                new Vector3(
-                                    transform.position.x,
-                                    transform.position.y,
-                                    transform.position.z + 0.1f
-                                );
+                        float bulletSpawnDistance = 1f;
+
+                        Vector3 position =
+                            transform.position +
+                            transform.up * bulletSpawnDistance;
 
                         Instantiate(
                             bullet,
@@ -483,31 +482,32 @@ public class Rocket : MonoBehaviour
                 }
             }
 
-
-            if (loseFuel)
+            if (transform.position.y >= MaxLaunch)
             {
-                divisionTimer +=
-                    Time.deltaTime;
-
-                if (divisionTimer >= 0.1)
+                if (loseFuel)
                 {
-                    value -=
-                        baseValue / 100;
+                    divisionTimer +=
+                        Time.deltaTime;
 
-                    divisionTimer = 0;
-
-                    if (value < 0 ||
-                        value == 0)
+                    if (divisionTimer >= 0.1)
                     {
-                        cashSystem.SetDieText("Out of Fuel");
+                        value -= baseValue / 100 * (speed - 1);
 
-                        cashSystem.die.gameObject.SetActive(true);
+                        divisionTimer = 0;
 
-                        StartCoroutine(Die());
+                        if (value < 0 ||
+                            value == 0)
+                        {
+                            cashSystem.SetDieText("Out of Fuel");
 
-                        Debug.Log(
-                            "No Fuel"
-                        );
+                            cashSystem.die.gameObject.SetActive(true);
+
+                            StartCoroutine(Die());
+
+                            Debug.Log(
+                                "No Fuel"
+                            );
+                        }
                     }
                 }
             }
@@ -902,12 +902,12 @@ public class Rocket : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Mouse0) && shootTimer >= shootCooldown || Input.GetKeyDown(KeyCode.Space) &&
                     shootTimer >= shootCooldown)
                 {
+                    float bulletSpawnDistance = 0.1f;
+
                     Vector3 position =
-                        new Vector3(
-                            transform.position.x,
-                            transform.position.y,
-                            transform.position.z
-                        );
+                        transform.position +
+                        transform.up * bulletSpawnDistance;
+
                     GameObject newBullet = Instantiate(
                         bullet,
                         position,
@@ -1353,6 +1353,8 @@ public class Rocket : MonoBehaviour
 
     public void ResetRocket()
     {
+        DestroyAllBullets();
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
@@ -1499,5 +1501,15 @@ private IEnumerator SpeedBoostCoroutine()
         // Weer kwetsbaar maken
         speedBoostInvincible = false;
         speedBoostActive = false;
+    }
+
+    private void DestroyAllBullets()
+    {
+        Bullet[] bullets = FindObjectsByType<Bullet>(FindObjectsSortMode.None);
+
+        foreach (Bullet bullet in bullets)
+        {
+            Destroy(bullet.gameObject);
+        }
     }
 }

@@ -229,7 +229,7 @@ public class ObstacleSpawner : MonoBehaviour
             GameObject spawnedObject = Instantiate(
                 blackHole,
                 position,
-                transform.rotation,
+                blackHole.transform.rotation,
                 parentTransform
             );
 

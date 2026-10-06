@@ -1721,7 +1721,7 @@ MonoBehaviour:
   shield: {fileID: 1661173748145016054, guid: fe998e275f63b144a8c301ed97ebeb11, type: 3}
   speedBoost: {fileID: 3957521485887888177, guid: 664576dcc32f70047b5e6f85d1e033af, type: 3}
   parentTransform: {fileID: 283502233}
-  maxObstacles: 10
+  maxObstacles: 8
   maxMultipliers: 10
   maxDividers: 5
   maxEarth: 1
@@ -2223,7 +2223,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a2ec4d1e2ad84584b97bc3e725d3b85b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.1
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a2ec4d1e2ad84584b97bc3e725d3b85b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3787,7 +3787,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ca742013f0bfd6c4081e7b64398d2236, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ca742013f0bfd6c4081e7b64398d2236, type: 3}
       propertyPath: m_TagString
@@ -5024,7 +5024,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a76f0082b0139a54f81141efb85dd436, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a76f0082b0139a54f81141efb85dd436, type: 3}
       propertyPath: m_TagString

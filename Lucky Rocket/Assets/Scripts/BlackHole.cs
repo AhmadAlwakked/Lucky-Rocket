@@ -145,7 +145,7 @@ public class BlackHole : MonoBehaviour
         GameObject spawnedObject = Instantiate(
             prefab,
             transform.position,
-            Quaternion.identity,
+            prefab.transform.rotation,
             transform
         );
 

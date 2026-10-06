@@ -53,7 +53,7 @@ public class MultiplierScript : MonoBehaviour
             }
         }
 
-        if (Random.Range(0, 4) == 0)
+        if (Random.Range(0, 10) == 0)
         {
             int randomIndex = GetWeightedIndex(currentPlusChances);
             activePlus = plus[randomIndex];
