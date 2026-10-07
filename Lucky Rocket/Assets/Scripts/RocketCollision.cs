@@ -7,9 +7,15 @@ public class RocketCollision : MonoBehaviour
     public Rocket rocket;
     public CashSystem cashSystem;
 
+    public bool isFuelTank;
+
     private void OnTriggerEnter(Collider other)
     {
-    if (other.CompareTag("Obstacle"))
+        // Losgekoppelde fuel tank doet helemaal niets meer.
+        if (isFuelTank && rocket.loseFuel)
+            return;
+
+        if (other.CompareTag("Obstacle"))
         {
             // Tijdens SpeedBoost kan de rocket niet sterven
             if (rocket.speedBoostInvincible)
@@ -28,12 +34,19 @@ public class RocketCollision : MonoBehaviour
             }
         }
 
-
         if (other.CompareTag("Earth"))
         {
-            Debug.Log("cash + " + rocket.value + " x " + rocket.starMultiplier + " = " + rocket.value * rocket.starMultiplier);
+            Debug.Log(
+                "cash + " +
+                rocket.value +
+                " x " +
+                rocket.starMultiplier +
+                " = " +
+                rocket.value * rocket.starMultiplier
+            );
 
-            rocket.cashSystem.cash += rocket.value * rocket.starMultiplier;
+            rocket.cashSystem.cash +=
+                rocket.value * rocket.starMultiplier;
 
             cashSystem.TotalWin();
 
@@ -139,12 +152,20 @@ public class RocketCollision : MonoBehaviour
             rocket.SpeedBoost();
         }
     }
-    
+
     public IEnumerator OnTriggerExit(Collider other)
     {
+        // Losgekoppelde fuel tank doet ook bij TriggerExit niets.
+        if (isFuelTank && rocket.loseFuel)
+            yield break;
+
         if (rocket.currentBlackHole != null)
         {
-            if (other.CompareTag("BlackHole") && rocket.transform.localScale.x == rocket.blackHoleMiniGameScale)
+            if (
+                other.CompareTag("BlackHole") &&
+                rocket.transform.localScale.x ==
+                rocket.blackHoleMiniGameScale
+            )
             {
                 yield return new WaitForSecondsRealtime(0.25f);
 

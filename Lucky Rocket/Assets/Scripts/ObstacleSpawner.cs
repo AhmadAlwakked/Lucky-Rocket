@@ -218,7 +218,7 @@ public class ObstacleSpawner : MonoBehaviour
         float maxY
     )
     {
-        for (int attempt = 0; attempt < 20; attempt++)
+        for (int attempt = 0; attempt < 5; attempt++)
         {
             Vector3 position = new Vector3(
                 Random.Range(minX, maxX),

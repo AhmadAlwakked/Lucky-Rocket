@@ -148,6 +148,8 @@ public class Rocket : MonoBehaviour
     
     public bool speedBoostInvincible = false;
 
+    private MeshCollider fuelTankCollider;
+    private RocketCollision fuelTankCollision;
 
     void Start()
     {
@@ -227,6 +229,21 @@ public class Rocket : MonoBehaviour
         fuelTankOriginalParent = fuelTank.transform.parent;
         fuelTankOriginalPosition = fuelTank.transform.localPosition;
         fuelTankOriginalRotation = fuelTank.transform.localRotation;
+
+        fuelTankCollider = fuelTank.GetComponent<MeshCollider>();
+        fuelTankCollision = fuelTank.GetComponent<RocketCollision>();
+
+        if (fuelTankCollider != null)
+        {
+            fuelTankCollider.isTrigger = true;
+        }
+
+        if (fuelTankCollision != null)
+        {
+            fuelTankCollision.rocket = this;
+            fuelTankCollision.cashSystem = cashSystem;
+            fuelTankCollision.isFuelTank = true;
+        }
     }
 
 
@@ -450,9 +467,19 @@ public class Rocket : MonoBehaviour
                         // Tank losmaken van de shuttle
                         fuelTank.transform.SetParent(null);
 
+                        // Vanaf nu is de tank een fysieke collider
+                        if (fuelTankCollider != null)
+                        {
+                            fuelTankCollider.isTrigger = false;
+                        }
+
                         Rigidbody rb = fuelTank.GetComponent<Rigidbody>();
-                        rb.isKinematic = false;
-                        rb.useGravity = true;
+
+                        if (rb != null)
+                        {
+                            rb.isKinematic = false;
+                            rb.useGravity = true;
+                        }
                     }
                 }
 
