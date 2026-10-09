@@ -53,7 +53,8 @@ public class BlackHole : MonoBehaviour
 
         rb.mass = size * size;
 
-        transform.localScale = new Vector3(size, size, size);
+        Vector3 currentScale = transform.localScale;
+        transform.localScale = new Vector3(size, size, currentScale.z);
 
         SpawnObjects();
     }

@@ -11,11 +11,17 @@ public class GameUI : MonoBehaviour
     [Header("Flash Text")]
     public TextMeshProUGUI flashText;
 
+    public bool mouseIcon;
+
     void Start()
     {
         // Custom cursor
         Cursor.visible = true;
-        Cursor.SetCursor(cursorTexture, hotspot, CursorMode.Auto);
+
+        if (mouseIcon)
+        {
+            Cursor.SetCursor(cursorTexture, hotspot, CursorMode.Auto);
+        }
 
         // Start text sequence
         StartCoroutine(ShowFlashText());

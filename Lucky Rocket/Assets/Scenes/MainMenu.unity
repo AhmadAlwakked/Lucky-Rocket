@@ -6749,6 +6749,7 @@ MonoBehaviour:
   cursorTexture: {fileID: 2800000, guid: 083a80e88940c364ebd9a6108cc777d1, type: 3}
   hotspot: {x: 0, y: 0}
   flashText: {fileID: 686045809}
+  mouseIcon: 0
 --- !u!1 &1523907357
 GameObject:
   m_ObjectHideFlags: 0
