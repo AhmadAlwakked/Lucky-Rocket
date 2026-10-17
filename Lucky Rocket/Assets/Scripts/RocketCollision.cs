@@ -9,6 +9,11 @@ public class RocketCollision : MonoBehaviour
 
     public bool isFuelTank;
 
+    public AudioSource CollectPlus;
+    public AudioSource CollectDivider;
+    public AudioSource CollectSpeedBoost;
+    public AudioSource CollectStar;
+
     private void OnTriggerEnter(Collider other)
     {
         // Losgekoppelde fuel tank doet helemaal niets meer.
@@ -77,12 +82,15 @@ public class RocketCollision : MonoBehaviour
 
                     rocket.value *= multiplyAmount;
                 }
+
+                CollectPlus.Play();
             }
         }
 
         if (other.CompareTag("Divider"))
         {
             rocket.value /= 2;
+            CollectDivider.Play();
         }
 
         if (other.CompareTag("BlackHole"))
@@ -140,6 +148,8 @@ public class RocketCollision : MonoBehaviour
             }
 
             rocket.totalStarsCollected += 1;
+
+            CollectStar.Play();
         }
 
         if (other.CompareTag("Shield"))
@@ -150,6 +160,7 @@ public class RocketCollision : MonoBehaviour
         if (other.CompareTag("SpeedBoost"))
         {
             rocket.SpeedBoost();
+            CollectSpeedBoost.Play();
         }
     }
 

@@ -151,6 +151,10 @@ public class Rocket : MonoBehaviour
     private MeshCollider fuelTankCollider;
     private RocketCollision fuelTankCollision;
 
+    public AudioSource RocketLaunchAudio;
+    public AudioSource NoCash;
+    public AudioSource EnterBlackHoleSound;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.None;
@@ -296,6 +300,7 @@ public class Rocket : MonoBehaviour
                 else
                 {
                     Debug.Log("Not Enough Cash");
+                    NoCash.Play();
                 }
             }
 
@@ -310,6 +315,7 @@ public class Rocket : MonoBehaviour
                 else
                 {
                     Debug.Log("Not Enough cash");
+                    NoCash.Play();
                 }
             }
 
@@ -327,6 +333,7 @@ public class Rocket : MonoBehaviour
                 else
                 {
                     Debug.Log("Not Enough Cash");
+                    NoCash.Play();
                 }
             }
         }
@@ -1128,6 +1135,8 @@ public class Rocket : MonoBehaviour
 
     public void Launch()
     {
+        RocketLaunchAudio.Play();
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
@@ -1188,6 +1197,8 @@ public class Rocket : MonoBehaviour
 
     public void EnterBlackHole(BlackHole blackHole)
     {
+        EnterBlackHoleSound.Play();
+
         // Voorkom dat dezelfde Black Hole opnieuw wordt getriggerd
         if (blackHole == exitedBlackHole)
         {
