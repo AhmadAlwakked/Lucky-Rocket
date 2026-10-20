@@ -154,6 +154,7 @@ public class Rocket : MonoBehaviour
     public AudioSource RocketLaunchAudio;
     public AudioSource NoCash;
     public AudioSource EnterBlackHoleSound;
+    public AudioSource Shoot;
 
     void Start()
     {
@@ -510,6 +511,8 @@ public class Rocket : MonoBehaviour
                             position,
                             transform.rotation
                         );
+
+                        Shoot.Play();
 
                         shootTimer = 0f;
                     }

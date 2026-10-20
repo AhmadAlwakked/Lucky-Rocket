@@ -9,6 +9,7 @@ public class SceneChanger : MonoBehaviour
     }
     public void GoToMainMenu()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
     }
 

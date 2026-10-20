@@ -13,6 +13,9 @@ public class RocketCollision : MonoBehaviour
     public AudioSource CollectDivider;
     public AudioSource CollectSpeedBoost;
     public AudioSource CollectStar;
+    public AudioSource WinCash;
+    public AudioSource Crash;
+    public AudioSource CollectShield;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -25,6 +28,8 @@ public class RocketCollision : MonoBehaviour
             // Tijdens SpeedBoost kan de rocket niet sterven
             if (rocket.speedBoostInvincible)
                 return;
+
+            Crash.Play();
 
             if (rocket.health > 0)
             {
@@ -52,6 +57,8 @@ public class RocketCollision : MonoBehaviour
 
             rocket.cashSystem.cash +=
                 rocket.value * rocket.starMultiplier;
+
+            WinCash.Play();
 
             cashSystem.TotalWin();
 
@@ -154,7 +161,9 @@ public class RocketCollision : MonoBehaviour
 
         if (other.CompareTag("Shield"))
         {
-            rocket.health = 2;
+            CollectShield.Play();
+
+            rocket.health += 1;
         }
 
         if (other.CompareTag("SpeedBoost"))
