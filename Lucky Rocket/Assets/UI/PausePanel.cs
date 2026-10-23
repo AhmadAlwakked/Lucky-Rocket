@@ -48,9 +48,6 @@ public class PausePanel : MonoBehaviour
         pausePanel.SetActive(true);
 
         Time.timeScale = 0f;
-
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
     }
 
     public void ClosePausePanel()
@@ -60,9 +57,6 @@ public class PausePanel : MonoBehaviour
         pausePanel.SetActive(false);
 
         Time.timeScale = 1f;
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     // GAME OPTIONS
